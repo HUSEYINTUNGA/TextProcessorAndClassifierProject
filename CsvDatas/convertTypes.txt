@@ -1,0 +1,18 @@
+convertEnglish={
+    "world":1,
+    "sports":2,
+    "Business": 3,
+    "sci/tech":4,
+    "entertainment":5,
+    "politics":6,
+    }
+    
+convertTurkish={
+    "Ekonomi:0,
+    "Kültür-Sanat":1,
+    "Sağlık":2,
+    "Siyaset":3,
+    "Spor":4,
+    "Teknoloji":5,
+}
+
