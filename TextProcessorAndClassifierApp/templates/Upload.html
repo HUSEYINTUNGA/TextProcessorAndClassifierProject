@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}CSV Dosya Yükle{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>CSV Dosyası Yükle</h1>
+
+    <!-- CSV Dosyasını Yükleme Formu -->
+    <form method="post" enctype="multipart/form-data" action="{% url 'upload' %}" id="csv-form">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="csvFile" class="form-label">CSV Dosyanızı Yükleyin:</label>
+            <input type="file" name="csv_file" id="csvFile" accept=".csv" required class="form-control">
+            <div id="error-message" class="error-message text-danger">
+                {% if error_message %}
+                    {{ error_message }}
+                {% endif %}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" id="upload-button">Yükle</button>
+    </form>
+    
+
+    <!-- CSV Sütunlarını Seçme Formu -->
+    {% if columns %}
+        <form method="post" action="{% url 'process_columns' %}" id="columns-form">
+            {% csrf_token %}
+            <h2>CSV Sütunlarını Seçin</h2>
+            <p>Sütunlardan işlem yapmak istediklerinizi seçin:</p>
+            {% for column in columns %}
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="selected_columns" value="{{ column }}" id="column-{{ column }}">
+                    <label class="form-check-label" for="column-{{ column }}">{{ column }}</label>
+                </div>
+            {% endfor %}
+            <div id="error-message" class="error-message text-danger">
+                {% if error_message %}
+                    {{ error_message }}
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Seç</button>
+        </form>
+    {% endif %}
+
+    <!-- İşlem Seçim Formu -->
+    <form id="operation-form" style="display: {% if show_operation_form %}block{% else %}none{% endif %};">
+        <h3>Bu sütunlardaki verilere hangi işlemi uygulamak istersiniz?</h3>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="operation" id="operation-process" value="process">
+            <label class="form-check-label" for="operation-process">İşlem</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="radio" name="operation" id="operation-classify" value="classify">
+            <label class="form-check-label" for="operation-classify">Sınıflandır</label>
+        </div>
+        <button type="button" class="btn btn-primary mt-3" id="submit-operation">İşlem Seç</button>
+    </form>
+
+    <!-- Tahmin İşlemi İçin Link -->
+    <div id="prediction-link" style="display: none; margin-top: 20px;">
+        <a href="{% url 'predict_class' %}" class="btn btn-link">Kendi oluşturduğunuz model üzerinde tahmin işlemi gerçekleştirin</a>
+    </div>
+</div>
+
+<script src="{% static 'js/upload.js' %}"></script>
+{% endblock %}
