@@ -1,11 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Processor And Classifier</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends 'base.html' %}
+{%load static%}
+{% block title %}Text Processing - Homepage{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Text Processor</h1>
+
+    <form id="textProcessorForm" method="post" action="{% url 'home' %}">
+        {% csrf_token %}
+        <textarea class="form-control mb-3" name="text" placeholder="Yazmak istediğiniz metni buraya yapıştırın..." rows="5"></textarea>
+
+        <div class="checkbox-group mb-3">
+            <label class="form-check-label"><input class="form-check-input" type="checkbox" name="remove_punctuation"> Noktalama İşaretlerini Kaldır</label>
+            <label class="form-check-label"><input class="form-check-input" type="checkbox" name="remove_special_chars"> Özel Karakterleri Kaldır</label>
+            <label class="form-check-label"><input class="form-check-input" type="checkbox" name="convert_to_lowercase"> Küçük Harfe Dönüştür</label>
+            <label class="form-check-label"><input class="form-check-input" type="checkbox" name="convert_to_uppercase"> Büyük Harfe Dönüştür</label>
+            <label class="form-check-label"><input class="form-check-input" type="checkbox" name="remove_stopwords"> Durdurma Kelimelerini Kaldır</label>
+            <label class="form-check-label"><input class="form-check-input" type="checkbox" name="stemming"> Kökleme (Stemming)</label>
+            <label class="form-check-label"><input class="form-check-input" type="checkbox" name="lemmatization"> Lemmatizasyon</label>
+            <label class="form-check-label"><input class="form-check-input" type="checkbox" name="classify_text"> Sınıflandır</label>
+        </div>
+
+        <button class="btn btn-primary" type="button" onclick="validateAndProcess(event)">Metni İşle</button>
+    </form>
+
+    <div class="processed-text-container mt-4" style="display: none;">
+        <h2>İşlenmiş Metin</h2>
+        <textarea class="form-control processed-text" readonly></textarea>
+        <button class="btn btn-secondary mt-2 copy-button" onclick="copyToClipboard()">Kopyala</button>
+        <div class="notification" id="notification" style="display: none;">Metin panoya kopyalandı!</div>
+    </div>
+
+    <div class="classification-result mt-4" style="display: none;">
+        <h2>Metin Sınıfı: <span id="classificationText"></span></h2>
+    </div>
+
+    <div id="errorContainer" class="alert alert-danger mt-4" style="display: none;"></div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/home.js' %}"></script>
+{% endblock %}
