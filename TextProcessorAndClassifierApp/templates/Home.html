@@ -1,20 +1,146 @@
 {% extends 'base.html' %}
-{%load static%}
+{% load static %}
 {% block title %}Text Processing - Homepage{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/home.css' %}">
+<style>
+    .container {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    form {
+        width: 100%;
+        max-width: 600px;
+    }
+
+    textarea.form-control {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #ced4da;
+        border-radius: 8px;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        background-color: #f8f9fa;
+    }
+
+    textarea.form-control:focus {
+        border-color:rgb(54,66,73);
+        box-shadow: 0 4px 6px #007bff;
+        outline: none; 
+    }
+
+    textarea.form-control:hover {
+        border-color: #007bff;
+        box-shadow: 0 4px 10px rgb(54,66,73);
+    }
+
+    .checkbox-group {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+    }
+
+    .form-check-label {
+        margin-top: 10px;
+        transition: transform 0.3s ease, font-weight 0.3s ease;
+    }
+
+    .form-check-label:hover {
+        transform: translateY(-2px);
+        font-weight: bold;
+    }
+
+    button.btn-primary {
+        margin-top: 20px;
+        width: 100%;
+        background-color: rgb(54, 66, 73);
+        border-bottom: 5px solid #007bff;
+        box-shadow: 0 4px 10px rgb(54,66,73);
+        transition: background-color 0.3s ease, border-bottom-color 0.3s ease;
+    }
+
+    button.btn-primary:hover {
+        background-color: #007bff;
+        border-bottom-color: rgb(54, 66, 73);
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    .processed-text-container {
+        display: none;
+        width: 100%;
+        max-width: 600px;
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    textarea.processed-text {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    button.btn-secondary {
+        margin-top: 10px;
+        width: 100%;
+        background-color: rgb(54, 66, 73);
+        border-bottom: 5px solid #007bff;
+        transition: background-color 0.3s ease, border-bottom-color 0.3s ease;
+    }
+
+    button.btn-secondary:hover {
+        background-color: #007bff;
+        border-bottom-color: rgb(54, 66, 73);
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    .notification {
+        display: none;
+        margin-top: 10px;
+        background-color: #d4edda;
+        color: #155724;
+        padding: 10px;
+        border: 1px solid #c3e6cb;
+        border-radius: 4px;
+        text-align: center;
+    }
+
+    .classification-result {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .alert.alert-danger {
+        display: none;
+        width: 100%;
+        max-width: 600px;
+        text-align: center;
+        margin-top: 20px;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="container">
     <h1>Text Processor</h1>
 
     <form id="textProcessorForm" method="post" action="{% url 'home' %}">
         {% csrf_token %}
-        <textarea class="form-control mb-3" name="text" placeholder="Yazmak istediğiniz metni buraya yapıştırın..." rows="5"></textarea>
-
-        <div class="checkbox-group mb-3">
+        <textarea class="form-control" name="text" placeholder="Yazmak istediğiniz metni buraya girin lütfen." rows="5"></textarea>
+        <input type="hidden" name="detected_language" id="detectedLanguage" value=""style="display:'none'">
+        <div class="checkbox-group">
             <label class="form-check-label"><input class="form-check-input" type="checkbox" name="remove_punctuation"> Noktalama İşaretlerini Kaldır</label>
             <label class="form-check-label"><input class="form-check-input" type="checkbox" name="remove_special_chars"> Özel Karakterleri Kaldır</label>
             <label class="form-check-label"><input class="form-check-input" type="checkbox" name="convert_to_lowercase"> Küçük Harfe Dönüştür</label>
@@ -28,21 +154,22 @@
         <button class="btn btn-primary" type="button" onclick="validateAndProcess(event)">Metni İşle</button>
     </form>
 
-    <div class="processed-text-container mt-4" style="display: none;">
+    <div class="processed-text-container">
         <h2>İşlenmiş Metin</h2>
         <textarea class="form-control processed-text" readonly></textarea>
-        <button class="btn btn-secondary mt-2 copy-button" onclick="copyToClipboard()">Kopyala</button>
+        <button class="btn btn-secondary copy-button" onclick="copyToClipboard()">Kopyala</button>
         <div class="notification" id="notification" style="display: none;">Metin panoya kopyalandı!</div>
     </div>
 
-    <div class="classification-result mt-4" style="display: none;">
+    <div class="classification-result">
         <h2>Metin Sınıfı: <span id="classificationText"></span></h2>
     </div>
 
-    <div id="errorContainer" class="alert alert-danger mt-4" style="display: none;"></div>
+    <div id="errorContainer" class="alert alert-danger"></div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/franc-min@6.1.0/dist/franc.min.js"></script>
 <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}

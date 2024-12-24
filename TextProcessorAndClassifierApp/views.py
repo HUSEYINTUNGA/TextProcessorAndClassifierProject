@@ -1,16 +1,13 @@
-from django.shortcuts import render
-import string
 import re
+import string
 from nltk.corpus import stopwords
+from googletrans import Translator
+from django.shortcuts import render
+from django.http import JsonResponse
 from nltk.stem import PorterStemmer, WordNetLemmatizer
-from django.http import JsonResponse, HttpResponse
-import pandas as pd
-import os
-from django.conf import settings
-from datetime import datetime
-import time
-user_csv_file = None
-selected_columns = None
+from train_models import predict_class
+translator = Translator()
+
 def is_valid_word(word):
     """
     Kelimenin geçerli bir kelime olup olmadığını kontrol eder.
@@ -18,22 +15,28 @@ def is_valid_word(word):
     """
     return len(word) > 1 and word.isalpha()
 
-def clean_text(user_text, options):
+def detect_language(user_text):
     """
-    Parametre olarak gelen metni temizler ve belirli işlemleri uygular.
-    Uygulanabilecek işlemler:
-    - Noktalama işaretlerini kaldırma.
-    - Özel karakterleri kaldırma.
-    - Harfleri büyük/küçük hale dönüştürme.
-    - Durdurma kelimelerini (stopwords) kaldırma.
-    - Stemming ve lemmatization işlemleri.
+    Kullanıcının metninin dilini tespit eder.
+    """
+    try:
+        detected_lang = translator.detect(user_text).lang
+        print("Tespit edilen dil: ",detected_lang)
+        return detected_lang
+        
+    except Exception as e:
+        return f"Language detection error: {str(e)}"
+
+def clean_text(user_text, options, language='en'):
+    """
+    Metni temizler ve dil desteği eklenir.
     """
     try:
         if options.get('remove_punctuation'):
             user_text = user_text.translate(str.maketrans('', '', string.punctuation))
 
         if options.get('remove_special_chars'):
-            user_text = re.sub(r'[#$@{}\[\]\/\\)<>(|!\'^+%&/½=*&€~¨´æ£éß]', '', user_text)
+            user_text = re.sub(r'[#$@{}\[\]\/\\)<>(|!\'^+%&/\u00bd=*&\u20ac~\u00a8\u00b4\u00e6\u00a3\u00e9\u00df]', '', user_text)
 
         if options.get('convert_to_lowercase'):
             user_text = user_text.lower()
@@ -42,7 +45,7 @@ def clean_text(user_text, options):
             user_text = user_text.upper()
 
         if options.get('remove_stopwords'):
-            stop_words = set(stopwords.words('english'))
+            stop_words = set(stopwords.words(language)) if language in stopwords.fileids() else set()
             user_text = ' '.join([word for word in user_text.split() if word.lower() not in stop_words])
 
         if options.get('stemming'):
@@ -52,7 +55,7 @@ def clean_text(user_text, options):
         if options.get('lemmatization'):
             lemmatizer = WordNetLemmatizer()
             user_text = ' '.join([lemmatizer.lemmatize(word) for word in user_text.split() if is_valid_word(word)])
-        
+
         return user_text
     except Exception as e:
         return f"Text cleaning error: {str(e)}"
@@ -77,20 +80,19 @@ def HomePage(request):
             'remove_stopwords': request.POST.get('remove_stopwords') == 'on',
             'stemming': request.POST.get('stemming') == 'on',
             'lemmatization': request.POST.get('lemmatization') == 'on',
+            'classify_text': request.POST.get('classify_text') == 'on',
         }
 
         if not any(options.values()) and not request.POST.get('classify_text'):
             return JsonResponse({'error': 'Lütfen en az bir işlem türü veya sınıflandırma seçin.'})
-
-        processed_text = clean_text(user_text, options)
+        text_language=detect_language(user_text)
+        processed_text = clean_text(user_text, options, text_language)
         classification_result = None
-
         if request.POST.get('classify_text'):
             try:
-                classification_result = predict_class(user_text)
+                classification_result = predict_class(user_text,text_language)
             except Exception as e:
                 return JsonResponse({'error': f"Sınıf tahmini sırasında bir hata oluştu: {str(e)}"})
-
         return JsonResponse({
             'processed_text': processed_text,
             'classification_result': classification_result
@@ -98,72 +100,9 @@ def HomePage(request):
 
     return render(request, 'Home.html')
 
-
-
-
-from django.shortcuts import render
-from django.http import JsonResponse
-import pandas as pd
-
-# Global değişkenler
-user_csv_file = None
-selected_columns = None
-
-def UploadPage(request):
+def AboutMe(request):
     """
-    CSV dosyası yükleme ve sütunları frontend'e aktarma
+    Hakkımda sayfasını render eder.
+    Bu sayfa, uygulama ve geliştirici hakkında bilgi içermektedir.
     """
-    if request.method == 'POST' and request.FILES.get('csv_file'):
-        csv_file = request.FILES['csv_file']
-
-        # Dosya formatını kontrol et
-        if not csv_file.name.endswith('.csv'):
-            return render(request, 'Upload.html', {'error_message': 'Lütfen bir CSV dosyası yükleyin.'})
-
-        try:
-            global user_csv_file
-            user_csv_file = pd.read_csv(csv_file)  # CSV dosyasını oku
-            columns = user_csv_file.columns.tolist()  # Sütunları al
-
-            if not columns:
-                return render(request, 'Upload.html', {'error_message': 'Yüklenen CSV dosyasında sütun bulunamadı.'})
-            print("Yüklenen dosyanın sütunları :" ,columns)
-            # Sütunları template'e aktar
-            return render(request, 'Upload.html', {
-                'columns': columns,
-                'message': 'CSV dosyası başarıyla yüklendi.'
-            })
-        except Exception as e:
-            return render(request, 'Upload.html', {'error_message': f'Hata oluştu: {str(e)}'})
-
-    return render(request, 'Upload.html')
-
-def process_columns(request):
-    global selected_columns
-    if request.method == 'POST':
-        selected_columns = request.POST.getlist('selected_columns')
-        if not selected_columns:
-            return render(request, 'Upload.html', {'error_message': 'Lütfen en az bir sütun seçin.'})
-        print(selected_columns)
-        return render(request, 'Upload.html', {
-            'selected_columns': selected_columns,
-            'message': 'Sütunlar başarıyla seçildi.',
-            'show_operation_form': True 
-        })
-
-    return render(request, 'Upload.html')
-
-
-def process_text(request):
-    columns = request.GET.get('columns', [])
-    # İşlem için gerekli adımları burada gerçekleştirebilirsiniz
-    return render(request, 'process_text.html', {'columns': columns})
-
-def predict_class(request):
-    columns = request.GET.get('columns', [])
-    # Sınıflandırma için gerekli adımları burada gerçekleştirebilirsiniz
-    return render(request, 'PredictClasses.html', {'columns': columns})
-
-
-def AboutMePage(request):
     return render(request, 'AboutMe.html')

@@ -1,0 +1,47 @@
+Sınıflandırma Modellerinin Performans Özeti
+
+Bu dosya, İngilizce ve Türkçe metin verileri üzerinde eğitim almış sınıflandırma modellerinin performans metriklerini içermektedir. Eğitim sürecinde kullanılan en iyi kombinasyonlar seçilmiş ve kayıt altına alınmıştır.
+
+İngilizce Metin Verileri ile Eğitim
+Sınıflandırma Algoritması: SVC()
+Vectorizer: TfidfVectorizer()
+Doğruluk Oranı: 0.826
+Sınıflandırma Raporu:
+
+Sınıf	Precision	Recall	F1-Score	Destek (Support)
+1	    0.69	    0.92	0.79	    64
+2	    0.91	    0.86	0.88	    70
+3	    0.73	    0.71	0.72	    51
+4	    0.85	    0.84	0.85	    56
+5	    1.00	    0.87	0.93	    54
+6	    0.91	    0.76	0.83	    66
+7	    0.77	    0.81	0.79	    59
+
+Genel Performans:
+
+Doğruluk (Accuracy): 0.83
+Makro Ortalamalar (Macro Avg): Precision 0.84, Recall 0.82, F1-Score 0.83
+Ağırlıklı Ortalamalar (Weighted Avg): Precision 0.84, Recall 0.83, F1-Score 0.83
+
+Türkçe Metin Verileri ile Eğitim
+Sınıflandırma Algoritması: SVC()
+Vectorizer: TfidfVectorizer()
+Doğruluk Oranı: 0.951
+Sınıflandırma Raporu:
+
+Sınıf	Precision	Recall	F1-Score	Destek (Support)
+0	    0.91	    0.93	0.92	    258
+1	    0.93	    0.95	0.94	    201
+2	    0.98	    0.96	0.97	    248
+3	    0.94	    0.97	0.95	    257
+4	    1.00	    0.97	0.99	    238
+5	    0.96	    0.92	0.94	    253
+
+Genel Performans:
+
+Doğruluk (Accuracy): 0.95
+Makro Ortalamalar (Macro Avg): Precision 0.95, Recall 0.95, F1-Score 0.95
+Ağırlıklı Ortalamalar (Weighted Avg): Precision 0.95, Recall 0.95, F1-Score 0.95
+
+Sonuç ve Model Seçimi
+Yapılan eğitim süreçlerinde her iki dil için en iyi sonuçları üreten TfidfVectorizer ve SVC() algoritmaları seçilmiştir. Kayıtlı modeller, yukarıda sunulan doğruluk ve sınıflandırma raporu metriklerine sahiptir.

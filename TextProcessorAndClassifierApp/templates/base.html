@@ -20,7 +20,7 @@
             align-items: center;
             font-size: 1.5rem;
             font-weight: bold;
-            color: #ecf0f1;
+            color: #09b6e1;
             text-decoration: none;
             
         }
@@ -99,18 +99,12 @@
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">Home</a>
                     </li>
-                    <li class="nav-item">
+                    {% comment %} <li class="nav-item">
                         <a class="nav-link {% if request.path == '/data/upload' %}active{% endif %}" href="{% url 'upload' %}">Csv dosyası yükle</a>
-                    </li>
+                    </li>{% endcomment %}
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == '/about/' %}active{% endif %}" href="{% url 'about' %}">About App</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/data/process-text/' %}active{% endif %}" href="{% url 'process_text' %}">Csv verisi işle</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link {% if request.path == '/data/predict-class/' %}active{% endif %}" href="{% url 'predict_class' %}">Csv verisi sınıflandır</a>
-                    </li>
+                    </li> 
                 </ul>
             </div>
         </div>
