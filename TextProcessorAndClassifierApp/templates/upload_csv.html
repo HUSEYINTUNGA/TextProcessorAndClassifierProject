@@ -78,7 +78,7 @@
 {% block content %}
 <div class="container">
     <div class="form-box">
-        <form method="post" enctype="multipart/form-data" action="{% url 'upload_csv' %}" id="csv-form">
+        <form method="post" enctype="multipart/form-data" action="{% url 'prcs_upload_csv' %}" id="csv-form">
             {% csrf_token %}
             <label for="csvFile">CSV Dosyanızı Yükleyin:</label>
             <input type="file" name="csv_file" id="csvFile" accept=".csv" required>
@@ -90,7 +90,7 @@
     <!-- CSV Sütunlarını Seçme Formu -->
     {% if columns %}
     <div class="form-box">
-        <form method="post" action="{% url 'process_columns' %}" id="columns-form">
+        <form method="post" action="{% url 'prcs_select_columns' %}" id="columns-form">
             {% csrf_token %}
             <h2>CSV Sütunlarını Seçin</h2>
             <p>Sütunlardan işlem yapmak istediklerinizi seçin:</p>
@@ -108,7 +108,7 @@
     <!-- İşlem Seçenekleri -->
     {% if selected_columns %}
     <div class="form-box">
-        <form method="post" action="{% url 'process_csv' %}" id="textProcessorForm">
+        <form method="post" action="{% url 'prcs_process_csv' %}" id="textProcessorForm">
             {% csrf_token %}
             <h2>Metin İşlemleri</h2>
             <p>Sütun verilerine uygulanacak işlemleri seçin:</p>

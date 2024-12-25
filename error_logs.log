@@ -19,3 +19,10 @@
 2024-12-25 18:14:18,323 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
 2024-12-25 18:14:23,239 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
 2024-12-25 18:14:28,357 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
+2024-12-25 20:05:05,275 - WARNING - Not Found: /favicon.ico
+2024-12-25 20:06:23,941 - WARNING - Bad Request: /classify/select_columns
+2024-12-25 20:29:33,657 - ERROR - HomePage fonksiyonunda hata: Reverse for 'upload_csv' not found. 'upload_csv' is not a valid view function or pattern name.
+2024-12-25 20:29:35,773 - ERROR - HomePage fonksiyonunda hata: Reverse for 'upload_csv' not found. 'upload_csv' is not a valid view function or pattern name.
+2024-12-25 20:30:31,316 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\urls.py changed, reloading.
+2024-12-25 20:55:06,940 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\train_models.py changed, reloading.
+2024-12-25 20:56:02,750 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.

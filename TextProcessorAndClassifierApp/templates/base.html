@@ -100,7 +100,10 @@
                         <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if 'csv' in request.path %}active{% endif %}" href="{% url 'upload_csv' %}">CSV İşleme</a>
+                        <a class="nav-link {% if 'process' in request.path %}active{% endif %}" href="{% url 'prcs_upload_csv' %}">CSV Verilerini İşle</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'classify' in request.path %}active{% endif %}" href="{% url 'clsf_upload_csv' %}">CSV Verilerini Sınıflandır</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == '/about/' %}active{% endif %}" href="{% url 'about' %}">About App</a>

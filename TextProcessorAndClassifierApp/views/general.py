@@ -129,7 +129,7 @@ def HomePage(request):
                 'classify_text': request.POST.get('classify_text') == 'on',
             }
 
-            if not any(options.values()) and not request.POST.get('classify_text'):
+            if not any(options.values()):
                 return JsonResponse({'error': 'Lütfen en az bir işlem türü veya sınıflandırma seçin.'})
 
             text_language = detect_language(user_text)
@@ -142,20 +142,24 @@ def HomePage(request):
             if processed_text == "Text cleaning error":
                 return JsonResponse({'error': 'Metin temizleme sırasında bir hata oluştu.'})
 
-            classification_result = None
+            if options.get('classify_text'):
+                if text_language not in ['en', 'tr']:
+                    return JsonResponse({'error': f'Girdiğiniz metnin dili "{text_language}", modeller tarafından desteklenmiyor.'})
 
-            if request.POST.get('classify_text')and (text_language=='en' or text_language=='tr'):
                 try:
                     classification_result = predict_class(user_text, text_language)
-                    print("predict_class:- {} -değerini döndürdü.".format(classification_result))
+                    return JsonResponse({
+                        'processed_text': processed_text,
+                        'classification_result': classification_result,
+                        'language_detected': text_language
+                    })
                 except Exception as e:
                     logging.error(f"Sınıflandırma sırasında hata: {e}")
                     return JsonResponse({'error': 'Sınıf tahmini sırasında bir hata oluştu.'})
-            else:
-                return JsonResponse({'error': f'Girdiğiniz metnin dili "{text_language}", modeller tarafından desteklenmiyor.'})
+
             return JsonResponse({
                 'processed_text': processed_text,
-                'classification_result': classification_result
+                'language_detected': text_language
             })
 
         return render(request, 'Home.html')

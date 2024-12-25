@@ -15,7 +15,7 @@ logging.basicConfig(
 user_csv_file = None
 selected_columns = None
 
-def upload_csv_page(request):
+def process_csv_upload(request):
     """
     CSV dosyasını yüklemek için kullanıcıdan giriş alır.
 
@@ -48,7 +48,7 @@ def upload_csv_page(request):
         logging.error(f"upload_csv_page fonksiyonunda hata: {e}")
         return JsonResponse({'error': 'Bir hata oluştu. Lütfen tekrar deneyin.'})
 
-def process_columns(request):
+def process_select_columns(request):
     """
     Kullanıcının seçtiği sütunları işler ve bunları global değişkene kaydeder.
 
@@ -73,7 +73,7 @@ def process_columns(request):
         logging.error(f"process_columns fonksiyonunda hata: {e}")
         return JsonResponse({'error': 'Bir hata oluştu. Lütfen tekrar deneyin.'})
 
-def process_csv(request):
+def process_csv_data(request):
     """
     Seçilen sütunlardaki verileri temizler ve belirlenen işlemleri uygular.
 
@@ -123,7 +123,7 @@ def process_csv(request):
 
                 timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
                 output_filename = f'processedCsv_{timestamp}.csv'
-                output_path = os.path.join('MetinApp/UserCsvFiles', output_filename)
+                output_path = os.path.join('UserCsvFiles/ProcessedFiles', output_filename)
 
                 os.makedirs(os.path.dirname(output_path), exist_ok=True)
                 user_csv_file.to_csv(output_path, index=False)
