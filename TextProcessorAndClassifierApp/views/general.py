@@ -1,11 +1,12 @@
 import re
 import string
-from nltk.corpus import stopwords
-from googletrans import Translator
 from django.shortcuts import render
 from django.http import JsonResponse
+from nltk.corpus import stopwords
+from googletrans import Translator
 from nltk.stem import PorterStemmer, WordNetLemmatizer
 from train_models import predict_class
+
 translator = Translator()
 
 def is_valid_word(word):
@@ -21,9 +22,8 @@ def detect_language(user_text):
     """
     try:
         detected_lang = translator.detect(user_text).lang
-        print("Tespit edilen dil: ",detected_lang)
+        print("Tespit edilen dil: ", detected_lang)
         return detected_lang
-        
     except Exception as e:
         return f"Language detection error: {str(e)}"
 
@@ -36,7 +36,7 @@ def clean_text(user_text, options, language='en'):
             user_text = user_text.translate(str.maketrans('', '', string.punctuation))
 
         if options.get('remove_special_chars'):
-            user_text = re.sub(r'[#$@{}\[\]\/\\)<>(|!\'^+%&/\u00bd=*&\u20ac~\u00a8\u00b4\u00e6\u00a3\u00e9\u00df]', '', user_text)
+            user_text = re.sub(r'[#$@{}\[\]/\\)(<>|!\'^+%&/\u00bd=*&\u20ac~\u00a8\u00b4\u00e6\u00a3\u00e9\u00df]', '', user_text)
 
         if options.get('convert_to_lowercase'):
             user_text = user_text.lower()
@@ -85,14 +85,17 @@ def HomePage(request):
 
         if not any(options.values()) and not request.POST.get('classify_text'):
             return JsonResponse({'error': 'Lütfen en az bir işlem türü veya sınıflandırma seçin.'})
-        text_language=detect_language(user_text)
+        
+        text_language = detect_language(user_text)
         processed_text = clean_text(user_text, options, text_language)
         classification_result = None
+
         if request.POST.get('classify_text'):
             try:
-                classification_result = predict_class(user_text,text_language)
+                classification_result = predict_class(user_text, text_language)
             except Exception as e:
                 return JsonResponse({'error': f"Sınıf tahmini sırasında bir hata oluştu: {str(e)}"})
+
         return JsonResponse({
             'processed_text': processed_text,
             'classification_result': classification_result
