@@ -139,7 +139,6 @@
     <form id="textProcessorForm" method="post" action="{% url 'home' %}">
         {% csrf_token %}
         <textarea class="form-control" name="text" placeholder="Yazmak istediğiniz metni buraya girin lütfen." rows="5"></textarea>
-        <input type="hidden" name="detected_language" id="detectedLanguage" value=""style="display:'none'">
         <div class="checkbox-group">
             <label class="form-check-label"><input class="form-check-input" type="checkbox" name="remove_punctuation"> Noktalama İşaretlerini Kaldır</label>
             <label class="form-check-label"><input class="form-check-input" type="checkbox" name="remove_special_chars"> Özel Karakterleri Kaldır</label>
@@ -170,6 +169,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdn.jsdelivr.net/npm/franc-min@6.1.0/dist/franc.min.js"></script>
 <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}

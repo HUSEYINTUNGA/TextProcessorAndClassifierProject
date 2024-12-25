@@ -144,13 +144,15 @@ def HomePage(request):
 
             classification_result = None
 
-            if request.POST.get('classify_text'):
+            if request.POST.get('classify_text')and (text_language=='en' or text_language=='tr'):
                 try:
                     classification_result = predict_class(user_text, text_language)
+                    print("predict_class:- {} -değerini döndürdü.".format(classification_result))
                 except Exception as e:
                     logging.error(f"Sınıflandırma sırasında hata: {e}")
                     return JsonResponse({'error': 'Sınıf tahmini sırasında bir hata oluştu.'})
-
+            else:
+                return JsonResponse({'error': f'Girdiğiniz metnin dili "{text_language}", modeller tarafından desteklenmiyor.'})
             return JsonResponse({
                 'processed_text': processed_text,
                 'classification_result': classification_result

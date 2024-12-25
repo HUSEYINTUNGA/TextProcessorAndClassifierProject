@@ -52,7 +52,7 @@ async def load_data_from_db(language='english'):
         return pd.DataFrame()
 
 
-def clean_data(text, language='english'):
+def clean_data(text, language='en'):
     """
     Verileri, modelin işleyebileceği formata getirmek için gerekli
     veri temizleme işlemlerini gerçekleştirir.
@@ -64,13 +64,14 @@ def clean_data(text, language='english'):
     Returns:
     str: Temizlenmiş metin.
     """
+    
     text = text.translate(str.maketrans('', '', string.punctuation))
     text = re.sub(r'[#$@{}\[\]/\\)(<>|!\'^+%&/\u00bd=*&\u20ac~\u00a8\u00b4\u00e6\u00a3\u00e9\u00df]', '', text)
     text = text.lower()
 
-    if language == 'english':
+    if language == 'en':
         stop_words = set(stopwords.words('english'))
-    elif language == 'turkish':
+    elif language == 'tr':
         stop_words = set(stopwords.words('turkish'))
 
     text = ' '.join([word for word in text.split() if word not in stop_words])
