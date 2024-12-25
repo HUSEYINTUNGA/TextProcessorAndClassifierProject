@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const csvForm = document.getElementById("csv-form");
     const columnsForm = document.getElementById("columns-form");
     const textProcessorForm = document.getElementById("textProcessorForm");
-
     const showError = (element, message) => {
         const errorElement = element.querySelector(".error-message");
         if (errorElement) {
@@ -41,6 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     clearError(csvForm);
                 }
             }
+            
         });
     }
 
@@ -58,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 columnsForm.style.display = "none";
                 console.log("Seçilen Sütunlar:", selectedColumns.map(column => column.value));
             }
+            buttonTakeAction.disabled = false;
         });
     }
 
