@@ -17,7 +17,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'TextProcessorAndClassifierProje
 django.setup()
 from TextProcessorAndClassifierApp.models import UploadedEnglishTexts, UploadedTurkishTexts
 
-async def load_data_from_db(language='english'):
+
+async def load_data_from_db(language='en'):
     """
     Veritabanından tüm verileri çeker. Dil parametresine göre İngilizce veya Türkçe veri çeker.
     
@@ -29,14 +30,14 @@ async def load_data_from_db(language='english'):
     """
     os.makedirs("ML_Model", exist_ok=True)
     try:
-        if language == 'english':
+        if language == 'en':
             data = await sync_to_async(
                 lambda: list(
                     UploadedEnglishTexts.objects.all()
                     .values('text', 'category')
                 )
             )()
-        elif language == 'turkish':
+        elif language == 'tr':
             data = await sync_to_async(
                 lambda: list(
                     UploadedTurkishTexts.objects.all()
@@ -76,14 +77,13 @@ def clean_data(text, language='en'):
 
     text = ' '.join([word for word in text.split() if word not in stop_words])
 
-    if language == 'english':
+    if language == 'en':
         lemmatizer = WordNetLemmatizer()
         cleaned_text = ' '.join([lemmatizer.lemmatize(word) for word in text.split()])
     else:
         cleaned_text = ' '.join([simplemma.lemmatize(word, lang='tr') for word in text.split()])
 
     return cleaned_text
-
 
 def train_and_save_model(language='english'):
     """
