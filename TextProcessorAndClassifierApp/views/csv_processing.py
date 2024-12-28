@@ -38,12 +38,12 @@ def process_csv_upload(request):
             try:
                 user_csv_file = pd.read_csv(csv_file)
                 columns = user_csv_file.columns.tolist()
-                return render(request, 'upload_csv.html', {'columns': columns, 'message': 'CSV dosyası başarıyla yüklendi.'})
+                return render(request, 'process_csv.html', {'columns': columns, 'message': 'CSV dosyası başarıyla yüklendi.'})
             except Exception as e:
                 logging.error(f"CSV dosyası işlenirken hata: {e}")
                 return JsonResponse({'error': f'Hata oluştu: {str(e)}'}, status=400)
 
-        return render(request, 'upload_csv.html')
+        return render(request, 'process_csv.html')
     except Exception as e:
         logging.error(f"upload_csv_page fonksiyonunda hata: {e}")
         return JsonResponse({'error': 'Bir hata oluştu. Lütfen tekrar deneyin.'})
@@ -66,9 +66,9 @@ def process_select_columns(request):
             if not selected_columns:
                 return JsonResponse({'error': 'Hiçbir sütun seçilmedi.'}, status=400)
 
-            return render(request, 'upload_csv.html', {'selected_columns': selected_columns, 'columns': user_csv_file.columns.tolist()})
+            return render(request, 'process_csv.html', {'selected_columns': selected_columns, 'columns': user_csv_file.columns.tolist()})
 
-        return render(request, 'upload_csv.html')
+        return render(request, 'process_csv.html')
     except Exception as e:
         logging.error(f"process_columns fonksiyonunda hata: {e}")
         return JsonResponse({'error': 'Bir hata oluştu. Lütfen tekrar deneyin.'})

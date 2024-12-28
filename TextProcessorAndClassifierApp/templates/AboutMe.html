@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Hakkımda - Text Processor and Classifier{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/aboutme.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+<header>
+    <div class="header-title">
+        <h1>Hakkımda</h1>
+        <p>Merhaba! Ben Hüseyin TUNGA. Bu sayfada kendim ve "Text Processor and Classifier" projem hakkında bilgi bulabilirsiniz.</p>
+    </div>
+</header>
+
+<section class="section">
+    <h2>Proje Hedefleri</h2>
+    <p>Bu proje, kullanıcıların metinlerini daha verimli bir şekilde işlemesine ve sınıflandırmasına olanak tanımak için tasarlandı. Hedeflerimiz:</p>
+    <ul>
+        <li>Noktalama işaretlerini kaldırma, özel karakter temizleme gibi metin işleme işlemlerini kolaylaştırmak.</li>
+        <li>Metin sınıflandırması için güçlü makine öğrenimi modelleri sunmak.</li>
+        <li>Çeşitli algoritmaların performanslarını karşılaştırarak en uygun modeli önermek.</li>
+    </ul>
+</section>
+
+<section class="section">
+    <h2>Kullanılan Teknolojiler ve Algoritmalar</h2>
+    <p>Projede kullanılan bazı teknolojiler şunlardır:</p>
+    <ul>
+        <li>TF-IDF, Count Vectorizer, Hashing Vectorizer gibi özellik çıkarma yöntemleri</li>
+        <li>Destek Vektör Makineleri, Rastgele Orman gibi sınıflandırma algoritmaları</li>
+        <li>Python, Django, NLTK ve Simplemma gibi kütüphaneler</li>
+    </ul>
+</section>
+
+<section class="section">
+    <h2>Model Performansı</h2>
+    <p>Projede eğitilen modellerin doğruluk oranları:</p>
+    <ul>
+        <li>Rastgele Orman: %85 doğruluk</li>
+        <li>Naive Bayes: %80 doğruluk</li>
+        <li>Destek Vektör Makineleri: %88 doğruluk</li>
+    </ul>
+</section>
+
+<div class="box">
+    <img src="{% static 'img/HuseyinTUNGA.jpg' %}" alt="Hüseyin TUNGA">
+    <h1>Hüseyin TUNGA</h1>
+    <h1>Software Engineer</h1>
+    <h3>AI and Data Scientist</h3>
+    <ul>
+        <li><a href="https://github.com/HUSEYINTUNGA" target="_blank"><i class="fab fa-github"></i></a></li>
+        <li><a href="https://www.linkedin.com/in/h%C3%BCseyin-tunga-248177252/" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+        <li><a href="https://www.instagram.com/huseyn_tng/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="mailto:tunga@gmail.com" target="_blank"><i class="fa fa-envelope"></i></a></li>          
+    </ul> 
+</div>
+
+<footer>
+    <p>Tüm hakları saklıdır &copy; 2024 Hüseyin TUNGA</p>
+</footer>
+{% endblock %}

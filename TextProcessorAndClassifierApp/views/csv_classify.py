@@ -16,6 +16,7 @@ logging.basicConfig(
 user_csv_file = None
 selected_columns = None
 
+
 def classify_csv_upload(request):
     """
     Kullanıcıdan CSV dosyasını yüklemesini isteyen ve bu dosyanın sütunlarını döndüren fonksiyon.
@@ -50,6 +51,7 @@ def classify_csv_upload(request):
     except Exception as e:
         logging.error(f"classify_csv_page fonksiyonunda hata: {e}")
         return JsonResponse({'error': 'Bir hata oluştu. Lütfen tekrar deneyin.'})
+
 
 def classify_select_columns(request):
     """
@@ -87,6 +89,7 @@ def classify_select_columns(request):
         logging.error(f"select_columns fonksiyonunda hata: {e}")
         return JsonResponse({'error': 'Bir hata oluştu. Lütfen tekrar deneyin.'})
 
+
 def classify_csv_data(request):
     """
     Kullanıcının seçtiği sütunlarda sınıf tahmini yapar ve işlenmiş CSV dosyasını döndüren fonksiyon.
@@ -117,7 +120,6 @@ def classify_csv_data(request):
             if column not in user_csv_file.columns:
                 return JsonResponse({'error': f"'{column}' sütunu bulunamadı."}, status=400)
 
-            processed_texts = []
             predicted_classes = []
 
             for row in user_csv_file[column]:
@@ -125,8 +127,7 @@ def classify_csv_data(request):
 
                 detected_language = detect_language(original_text)
                 if detected_language not in ['en', 'tr']:
-                    processed_texts.append("Dil desteklenmiyor")
-                    predicted_classes.append("Tahmin yapılmadı")
+                    predicted_classes.append("Dil desteklenmiyor")
                     continue
 
                 processed_text = clean_text(original_text, {
@@ -142,15 +143,13 @@ def classify_csv_data(request):
                     predicted_class = predict_class(processed_text, detected_language)
                 except Exception as e:
                     logging.error(f"Tahmin sırasında hata: {e}")
-                    processed_texts.append(processed_text)
                     predicted_classes.append("Tahmin yapılamadı")
                     continue
 
-                processed_texts.append(processed_text)
                 predicted_classes.append(predicted_class)
 
-            user_csv_file[f"{column}_processed_text"] = processed_texts
-            user_csv_file[f"{column}_predicted_class"] = predicted_classes
+            result_column_name = f"{column}_class"
+            user_csv_file[result_column_name] = predicted_classes
 
         timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
         output_filename = f"classifiedCsv_{timestamp}.csv"
@@ -165,5 +164,5 @@ def classify_csv_data(request):
             return response
 
     except Exception as e:
-        logging.error(f"classify_columns fonksiyonunda hata: {e}")
+        logging.error(f"classify_csv_data fonksiyonunda hata: {e}")
         return JsonResponse({'error': 'Bir hata oluştu. Lütfen tekrar deneyin.'}, status=500)

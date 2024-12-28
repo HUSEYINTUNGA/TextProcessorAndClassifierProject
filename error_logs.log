@@ -1,28 +1,6 @@
-2024-12-25 15:33:57,274 - WARNING - Not Found: /favicon.ico
-2024-12-25 17:18:41,495 - WARNING - Not Found: /favicon.ico
-2024-12-25 17:19:53,173 - WARNING - Not Found: /favicon.ico
-2024-12-25 17:32:46,378 - WARNING - Not Found: /favicon.ico
-2024-12-25 17:37:11,245 - WARNING - Not Found: /favicon.ico
-2024-12-25 17:45:59,874 - ERROR - Sýnýflandýrma sýrasýnda hata: Desteklenmeyen dil kodu
-2024-12-25 17:48:53,163 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
-2024-12-25 17:48:57,366 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
-2024-12-25 17:49:09,154 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
-2024-12-25 17:49:14,082 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
-2024-12-25 17:49:25,903 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
-2024-12-25 17:49:29,860 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
-2024-12-25 17:51:11,643 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
-2024-12-25 18:10:26,198 - WARNING - Not Found: /favicon.ico
-2024-12-25 18:11:57,232 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
-2024-12-25 18:13:32,258 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
-2024-12-25 18:13:55,684 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
-2024-12-25 18:13:59,551 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
-2024-12-25 18:14:18,323 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
-2024-12-25 18:14:23,239 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
-2024-12-25 18:14:28,357 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
-2024-12-25 20:05:05,275 - WARNING - Not Found: /favicon.ico
-2024-12-25 20:06:23,941 - WARNING - Bad Request: /classify/select_columns
-2024-12-25 20:29:33,657 - ERROR - HomePage fonksiyonunda hata: Reverse for 'upload_csv' not found. 'upload_csv' is not a valid view function or pattern name.
-2024-12-25 20:29:35,773 - ERROR - HomePage fonksiyonunda hata: Reverse for 'upload_csv' not found. 'upload_csv' is not a valid view function or pattern name.
-2024-12-25 20:30:31,316 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\urls.py changed, reloading.
-2024-12-25 20:55:06,940 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\train_models.py changed, reloading.
-2024-12-25 20:56:02,750 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\general.py changed, reloading.
+2024-12-28 14:12:14,373 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\csv_classify.py changed, reloading.
+2024-12-28 14:12:24,264 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\csv_classify.py changed, reloading.
+2024-12-28 14:20:13,102 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\csv_classify.py changed, reloading.
+2024-12-28 14:20:18,107 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\csv_classify.py changed, reloading.
+2024-12-28 14:20:27,559 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\csv_classify.py changed, reloading.
+2024-12-28 14:21:14,003 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\views\csv_classify.py changed, reloading.
