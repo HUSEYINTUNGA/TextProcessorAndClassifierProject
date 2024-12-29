@@ -1,11 +1,10 @@
 import os
+import logging
 import pandas as pd
 from datetime import datetime
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-from .general import detect_language, clean_text
-import logging
-from train_models import predict_class
+from .general import detect_language, clean_text, predict_class
 
 logging.basicConfig(
     filename='error_logs.log', 
@@ -15,7 +14,6 @@ logging.basicConfig(
 
 user_csv_file = None
 selected_columns = None
-
 
 def classify_csv_upload(request):
     """
