@@ -142,10 +142,10 @@ def predict_class(text,model_path,language='en'):
         vectorizer_path = os.path.join("ML_Model", "turkish_vectorizer.joblib")
         class_map = {v: k for k, v in convertTurkish.items()}
     else:
-        model_path=os.path.join("UserFiles/UserModels",model_path)
-        vectorizer_path = os.path.join("UserFiles/UserModels",model_path.replace('_', 'vectorizer.joblib'))
-        print(vectorizer_path)
+        model_path=os.path.join("UserFiles/UserModels",'user_models.joblib')
+        vectorizer_path = os.path.join("UserFiles/UserModels",'user_vectorizer.joblib')
         class_map = {v: k for k, v in convertEnglish.items()}
+    print(vectorizer_path)    
     try:
         if os.path.exists(model_path) and os.path.exists(vectorizer_path):
             model = load(model_path)

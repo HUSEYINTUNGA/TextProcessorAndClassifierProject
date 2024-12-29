@@ -3,7 +3,8 @@ import pandas as pd
 from datetime import datetime
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-from .general import detect_language, clean_text
+from TextProcessorAndClassifierApp.base_options import detect_language, clean_text
+
 import logging
 
 logging.basicConfig(
@@ -123,7 +124,7 @@ def process_csv_data(request):
 
                 timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
                 output_filename = f'processedCsv_{timestamp}.csv'
-                output_path = os.path.join('UserCsvFiles/ProcessedFiles', output_filename)
+                output_path = os.path.join('UserFiles/ProcessedCsvFiles', output_filename)
 
                 os.makedirs(os.path.dirname(output_path), exist_ok=True)
                 user_csv_file.to_csv(output_path, index=False)

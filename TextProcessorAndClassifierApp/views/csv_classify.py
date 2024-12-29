@@ -4,7 +4,7 @@ import pandas as pd
 from datetime import datetime
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-from .general import detect_language, clean_text, predict_class
+from TextProcessorAndClassifierApp.base_options import detect_language, clean_text, predict_class
 
 logging.basicConfig(
     filename='error_logs.log', 
@@ -127,7 +127,6 @@ def classify_csv_data(request):
                 if detected_language not in ['en', 'tr']:
                     predicted_classes.append("Dil desteklenmiyor")
                     continue
-
                 processed_text = clean_text(original_text, {
                     'remove_punctuation': True,
                     'remove_special_chars': True,
@@ -138,7 +137,13 @@ def classify_csv_data(request):
                 }, detected_language)
 
                 try:
-                    predicted_class = predict_class(processed_text, detected_language)
+                    print(detected_language)
+                    if detect_language=='tr':
+                        path_model="turkish_model.joblib"
+                    else:
+                        path_model="english_model.joblib"
+                    print("model path : ",path_model)
+                    predicted_class = predict_class(processed_text,path_model,detected_language)
                 except Exception as e:
                     logging.error(f"Tahmin sırasında hata: {e}")
                     predicted_classes.append("Tahmin yapılamadı")
@@ -151,7 +156,7 @@ def classify_csv_data(request):
 
         timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
         output_filename = f"classifiedCsv_{timestamp}.csv"
-        output_path = os.path.join('UserCsvFiles/ClassifyFiles', output_filename)
+        output_path = os.path.join('UserFiles/ClassifyCsvFiles', output_filename)
 
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
         user_csv_file.to_csv(output_path, index=False)
