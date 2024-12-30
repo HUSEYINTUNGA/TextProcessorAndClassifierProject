@@ -7,9 +7,9 @@ import pandas as pd
 
 user_csv_file = None
 app_dataset = None
-selected__target_column = None
+target_column = None
 
-def select_dataset(request):
+def select_using_dataset(request):
     global app_dataset
     if request.method == 'POST':
         dataset_option = request.POST.get('dataset_option', None)
@@ -22,8 +22,9 @@ def select_dataset(request):
                 except Exception as e:
                     return HttpResponse(f"Dataset yüklenirken hata oluştu: {e}", status=500)
             else:
-                return HttpResponse("Lütfen bir dil seçiniz.", status=400)
+                return JsonResponse({'error': 'Lütfen bir CSV dosyası yükleyin.'}, status=400)
         elif dataset_option == 'custom_dataset':
+            print("Kullanıcı kendi datasetini yüklemek istedi")
             return render(request, 'choiceTrainDataset.html', {'use_custom_dataset': True})
         else:
             return HttpResponse("Geçerli bir seçim yapılmadı.", status=400)
@@ -57,26 +58,25 @@ def custom_upload_dataset(request):
         return JsonResponse({'error': 'Bir hata oluştu. Lütfen tekrar deneyin.'})
 
 def select_target_column(request):
-    global user_csv_file, selected_target_column
+    global user_csv_file, target_column
     try:
         if request.method == 'POST':
-            selected_target_column = request.POST.getlist('selected_columns')
-
-            if not selected_target_column:
+            choise_target_column = request.POST.get('selected_column', None)
+            print("Seçilen sütun", choise_target_column)
+            if not choise_target_column:
                 columns = user_csv_file.columns.tolist()
                 return render(request, 'choiceTrainDataset.html', {
                     'columns': columns,
                     'error_message': 'Hiçbir sütun seçilmedi. Lütfen en az bir sütun seçin.'
                 })
-            target_column = selected_target_column[0]
+            target_column = choise_target_column
             class_distribution = user_csv_file[target_column].value_counts().to_dict()
             return render(request, 'choiceTrainDataset.html', {
-                'selected_columns': selected_target_column,
+                'selected_columns': target_column,
                 'columns': None,
                 'balance_step': True,
                 'class_distribution': class_distribution,
             })
-
         return render(request, 'choiceTrainDataset.html')
     except Exception as e:
         logging.error(f"select_columns fonksiyonunda hata: {e}")

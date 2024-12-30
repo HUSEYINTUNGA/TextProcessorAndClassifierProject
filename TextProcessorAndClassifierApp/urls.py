@@ -2,8 +2,8 @@ from django.urls import path
 from TextProcessorAndClassifierApp.views.general import HomePage , AboutMe
 from TextProcessorAndClassifierApp.views.csv_processing import process_csv_upload, process_select_columns, process_csv_data
 from TextProcessorAndClassifierApp.views.csv_classify import classify_csv_upload, classify_select_columns, classify_csv_data
-from TextProcessorAndClassifierApp.views.choiseTrainDataset import select_dataset,custom_upload_dataset,select_target_column,balance_dataset
-
+from TextProcessorAndClassifierApp.views.choice_train_dataset import select_using_dataset, custom_upload_dataset, select_target_column, balance_dataset
+from TextProcessorAndClassifierApp.views.create_model import choice_model_components 
 urlpatterns = [
     path('', HomePage, name='home'),
     path('about/', AboutMe, name='about'),
@@ -16,8 +16,9 @@ urlpatterns = [
     path('classify/selectColumns', classify_select_columns, name='clsf_select_columns'),
     path('classify/classifyColumns', classify_csv_data, name='clsf_classify_csv'),
 
-    path('createModel/', select_dataset, name='select_dataset'),
+    path('createModel/', select_using_dataset, name='select_using_dataset'),
     path('createModel/CustomDataset/uploadTrainDataset', custom_upload_dataset, name='custom_dataset'),
     path('createModel/CustomDataset/selectTargetColumn', select_target_column, name='select_target_column'),
-    path('createModel/CustomDataset/balanceTrainDataset', balance_dataset, name='balance_dataset')
+    path('createModel/CustomDataset/balanceTrainDataset', balance_dataset, name='balance_dataset'),
+    path('createModel/choiceModelComponents', choice_model_components, name='choice_model_components')
 ]
