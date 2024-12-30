@@ -106,6 +106,9 @@
                         <a class="nav-link {% if 'classify' in request.path %}active{% endif %}" href="{% url 'clsf_upload_csv' %}">CSV Verilerini Sınıflandır</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link {% if 'createModel' in request.path %}active{% endif %}" href="{% url 'select_dataset' %}">Kendi Sınıflandırma Modelini Oluştur</a>
+                    </li>                    
+                    <li class="nav-item">
                         <a class="nav-link {% if request.path == '/about/' %}active{% endif %}" href="{% url 'about' %}">About App</a>
                     </li> 
                 </ul>
