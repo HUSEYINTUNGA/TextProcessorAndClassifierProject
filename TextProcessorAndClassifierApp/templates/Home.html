@@ -32,14 +32,14 @@
     }
 
     textarea.form-control:focus {
-        border-color: rgb(54, 66, 73);
-        box-shadow: 0 4px 6px #007bff;
+        border-color: #000000;
+        box-shadow: 0 4px 6px #cdbe70;
         outline: none;
     }
 
     textarea.form-control:hover {
-        border-color: #007bff;
-        box-shadow: 0 4px 10px rgb(54, 66, 73);
+        border-color: #cdbe70;
+        box-shadow: 0 4px 10px rgb(0,0,0);
     }
 
     .checkbox-group {
@@ -50,6 +50,7 @@
 
     .form-check-label {
         margin-top: 10px;
+        font-size: 16px;
         transition: transform 0.3s ease, font-weight 0.3s ease;
     }
 
@@ -58,19 +59,20 @@
         font-weight: bold;
     }
 
-    button.btn-primary {
+    button {
         margin-top: 20px;
         width: 100%;
-        background-color: rgb(54, 66, 73);
-        border-bottom: 5px solid #007bff;
-        box-shadow: 0 4px 10px rgb(54, 66, 73);
+        background-color: rgb(0,0,0);
+        border-bottom: 5px solid #cdbe70;
+        box-shadow: 0 4px 10px #080808;
+        color:#cdbe70;
         transition: background-color 0.3s ease, border-bottom-color 0.3s ease;
     }
 
-    button.btn-primary:hover {
-        background-color: #007bff;
-        border-bottom-color: rgb(54, 66, 73);
-        color: #fff;
+    button:hover {
+        background-color: #cdbe70;
+        border-bottom-color: rgb(0,0,0);
+        color: #000000;
         transform: translateY(-2px);
     }
 
@@ -90,20 +92,6 @@
         margin-bottom: 10px;
     }
 
-    button.btn-secondary {
-        margin-top: 10px;
-        width: 100%;
-        background-color: rgb(54, 66, 73);
-        border-bottom: 5px solid #007bff;
-        transition: background-color 0.3s ease, border-bottom-color 0.3s ease;
-    }
-
-    button.btn-secondary:hover {
-        background-color: #007bff;
-        border-bottom-color: rgb(54, 66, 73);
-        color: #fff;
-        transform: translateY(-2px);
-    }
 
     .notification {
         display: none;
@@ -134,7 +122,7 @@
 
 {% block content %}
 <div class="container">
-    <h1>Text Processor</h1>
+    <h1>Text Processor and Classifier</h1>
 
     <form id="textProcessorForm" method="post" action="{% url 'home' %}">
         {% csrf_token %}
@@ -150,13 +138,13 @@
             <label class="form-check-label"><input class="form-check-input" type="checkbox" name="classify_text"> Sınıflandır</label>
         </div>
 
-        <button class="btn btn-primary" type="button" onclick="validateAndProcess(event)">Metni İşle</button>
+        <button class="buton" type="button" onclick="validateAndProcess(event)">Metni İşle</button>
     </form>
 
     <div class="processed-text-container">
         <h2>İşlenmiş Metin</h2>
         <textarea class="form-control processed-text" readonly></textarea>
-        <button class="btn btn-secondary copy-button" onclick="copyToClipboard()">Kopyala</button>
+        <button class="button copy-button" onclick="copyToClipboard()">Kopyala</button>
         <div class="notification" id="notification" style="display: none;">Metin panoya kopyalandı!</div>
     </div>
 

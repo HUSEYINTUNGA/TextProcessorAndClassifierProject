@@ -55,7 +55,7 @@
 
 {% block content %}
 <div class="container">
-    <h1>Sınıflandırma</h1>
+    <h1>CSV Verilerini Sınıflandırma</h1>
     <div class="form-box">
         <form id="classify-form" method="post" enctype="multipart/form-data" action="{% url 'clsf_upload_csv' %}">
             {% csrf_token %}
