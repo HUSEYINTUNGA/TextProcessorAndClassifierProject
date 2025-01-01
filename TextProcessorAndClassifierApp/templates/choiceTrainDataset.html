@@ -152,21 +152,35 @@
             </div>
             {% endif %}
             
-            {% if selected_columns %}
+            {% if selected_column %}
             <div class="form-box">
                 <h2>Seçilen Sütun</h2>
                 <ul>
                     <li>{{ selected_column }}</li>
                 </ul>
-                <div class="error-message"></div>
-                <button class="btn btn-primary" type="submit">Model Oluşturmaya Başla</button>
             </div>
             {% endif %}
 
-            {% if class_distribution %}
+            {% if balance_step %}
             <div class="form-box">
-                <h3>Veri Dengeleme Seçenekleri</h3>
                 <form method="POST" action="{% url 'balance_dataset' %}">
+                    <h3 style="text-align: center; font-weight: bold; margin-bottom: 20px;">Veri Dağılımı</h3>
+                    <table class="table table-striped" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background-color: #35424a; color: white; text-align: center;">
+                                <th style="padding: 10px; border: 1px solid #ddd;">Sınıf</th>
+                                <th style="padding: 10px; border: 1px solid #ddd;">Adet</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for class_name, count in class_distribution.items %}
+                            <tr style="text-align: center;">
+                                <td style="padding: 10px; border: 1px solid #ddd;">{{ class_name }}</td>
+                                <td style="padding: 10px; border: 1px solid #ddd;">{{ count }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                     {% csrf_token %}
                     <div class="form-group">
                         <input class="form-check-input" type="radio" name="action" id="remove_low_classes" value="remove_low_classes" required>

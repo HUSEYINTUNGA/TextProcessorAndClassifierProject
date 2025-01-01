@@ -10,6 +10,18 @@ app_dataset = None
 target_column = None
 
 def select_using_dataset(request):
+    """
+    Kullanıcıya uygulama veri setini mi yoksa kendi veri setini mi kullanmak istediğini seçtiren fonksiyon.
+
+    İşlevi:
+    - Kullanıcının seçimine göre uygulama veri setini yükler veya kullanıcıya kendi veri setini yükleme seçeneği sunar.
+
+    Parametreler:
+        request (HttpRequest): Kullanıcıdan gelen istek.
+
+    Döndürür:
+        HttpResponse: Seçim sayfası veya hata mesajı.
+    """
     global app_dataset
     if request.method == 'POST':
         dataset_option = request.POST.get('dataset_option', None)
@@ -30,8 +42,20 @@ def select_using_dataset(request):
             return HttpResponse("Geçerli bir seçim yapılmadı.", status=400)
     return render(request, 'choiceTrainDataset.html')
 
-
 def custom_upload_dataset(request):
+    """
+    Kullanıcının kendi CSV dosyasını yüklemesini sağlayan fonksiyon.
+
+    İşlevi:
+    - Kullanıcının yüklediği CSV dosyasının formatını kontrol eder.
+    - Dosyayı okuyarak kullanılabilir hale getirir.
+
+    Parametreler:
+        request (HttpRequest): Kullanıcıdan gelen istek.
+
+    Döndürür:
+        HttpResponse: Sütun bilgilerini içeren seçim sayfası veya hata mesajı.
+    """
     global user_csv_file
     try:
         if request.method == 'POST' and request.FILES.get('csv_file'):
@@ -58,6 +82,19 @@ def custom_upload_dataset(request):
         return JsonResponse({'error': 'Bir hata oluştu. Lütfen tekrar deneyin.'})
 
 def select_target_column(request):
+    """
+    Kullanıcının veri setinden hedef sütunu seçmesini sağlayan fonksiyon.
+
+    İşlevi:
+    - Kullanıcının seçtiği sütunun doğruluğunu kontrol eder.
+    - Hedef sütunu belirleyerek sınıf dağılımını hesaplar.
+
+    Parametreler:
+        request (HttpRequest): Kullanıcıdan gelen istek.
+
+    Döndürür:
+        HttpResponse: Hedef sütun ve sınıf dağılımını içeren seçim sayfası veya hata mesajı.
+    """
     global user_csv_file, target_column
     try:
         if request.method == 'POST':
@@ -72,7 +109,7 @@ def select_target_column(request):
             target_column = choise_target_column
             class_distribution = user_csv_file[target_column].value_counts().to_dict()
             return render(request, 'choiceTrainDataset.html', {
-                'selected_columns': target_column,
+                'selected_column': target_column,
                 'columns': None,
                 'balance_step': True,
                 'class_distribution': class_distribution,
@@ -81,16 +118,30 @@ def select_target_column(request):
     except Exception as e:
         logging.error(f"select_columns fonksiyonunda hata: {e}")
         return JsonResponse({'error': 'Bir hata oluştu. Lütfen tekrar deneyin.'})
-    
+
 def balance_dataset(request):
-    global user_csv_file, selected_target_column
+    """
+    Kullanıcının veri setindeki sınıfları dengelemesini sağlayan fonksiyon.
+
+    İşlevi:
+    - Veri setindeki sınıfların dağılımını kontrol eder.
+    - Kullanıcının seçimine göre sınıf dağılımını dengeler veya olduğu gibi bırakır.
+
+    Parametreler:
+        request (HttpRequest): Kullanıcıdan gelen istek.
+
+    Döndürür:
+        HttpResponse: Dengelenmiş veri seti bilgilerini içeren sayfa veya hata mesajı.
+    """
+    global user_csv_file, target_column
     try:
         if request.method == 'POST':
             action = request.POST.get('action', None)
+            print("Seçilen dengeleme adımı: ", action)
             if not action:
                 return JsonResponse({'error': 'Bir seçenek seçmelisiniz.'}, status=400)
 
-            target_column = selected_target_column[0]
+            target_column = target_column
             class_distribution = user_csv_file[target_column].value_counts().to_dict()
 
             if action == 'remove_low_classes':
@@ -100,7 +151,6 @@ def balance_dataset(request):
                 )]
                 message = "Ortalamanın altında kalan sınıflar kaldırıldı."
             elif action == 'balance_distribution':
-                # Sınıf sayısını en az veri içeren sınıfa eşitle
                 min_count = min(class_distribution.values())
                 user_csv_file = pd.concat([
                     user_csv_file[user_csv_file[target_column] == cls].sample(n=min_count, random_state=42)
@@ -118,7 +168,7 @@ def balance_dataset(request):
                 'updated_class_distribution': updated_class_distribution,
                 'message': message,
                 'columns': None,
-                'selected_columns': None,
+                'selected_column': None,
                 'class_distribution': None,
             })
         else:

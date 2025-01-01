@@ -122,54 +122,57 @@ convertTurkish = {
     "Teknoloji": 5,
 }
 
-def predict_class(text,model_path,language='en'):
+def predict_class(text, model_path, language='en'):
     """
     Girdi metnini sınıflandırır ve tahmin edilen sınıfı döndürür.
-    
-    Parameters:
-    text (str): Sınıflandırılacak metin.
-    language (str): 'en' veya 'tr' olarak dil seçimi.
 
-    Returns:
-    str: Tahmin edilen sınıf ismi.
+    Parametreler:
+        text (str): Sınıflandırılacak metin.
+        model_path (str): Kullanılacak modelin dosya yolu.
+        language (str): 'en' veya 'tr' olarak dil seçimi.
+
+    Döndürür:
+        str: Tahmin edilen sınıf ismi.
     """
-    if language == 'en' and model_path=='english_model.joblib':
+    if language == 'en' and model_path == 'english_model.joblib':
         model_path = os.path.join("ML_Model", "english_model.joblib")
         vectorizer_path = os.path.join("ML_Model", "english_vectorizer.joblib")
         class_map = {v: k for k, v in convertEnglish.items()}
-    elif language == 'tr' and model_path=='turkish_model.joblib':
+    elif language == 'tr' and model_path == 'turkish_model.joblib':
         model_path = os.path.join("ML_Model", "turkish_model.joblib")
         vectorizer_path = os.path.join("ML_Model", "turkish_vectorizer.joblib")
         class_map = {v: k for k, v in convertTurkish.items()}
     else:
-        model_path=os.path.join("UserFiles/UserModels",'user_models.joblib')
-        vectorizer_path = os.path.join("UserFiles/UserModels",'user_vectorizer.joblib')
+        model_path = os.path.join("UserFiles/UserModels", 'user_models.joblib')
+        vectorizer_path = os.path.join("UserFiles/UserModels", 'user_vectorizer.joblib')
         class_map = {v: k for k, v in convertEnglish.items()}
-    print(vectorizer_path)    
+
     try:
         if os.path.exists(model_path) and os.path.exists(vectorizer_path):
             model = load(model_path)
             vectorizer = load(vectorizer_path)
         else:
             raise FileNotFoundError("Model veya vektörizer bulunamadı.")
+
         options = {
             'remove_punctuation': True,
             'remove_special_chars': True,
             'convert_to_lowercase': True,
             'remove_stopwords': True,
             'stemming': False,
-            'lemmatization': False,
+            'lemmatization': True,
             }
-        cleaned_text = clean_text(text,options, language)
+
+        cleaned_text = clean_text(text, options, language)
         text_vector = vectorizer.transform([cleaned_text])
         predicted_class_int = model.predict(text_vector)[0]
 
         predicted_class_name = class_map.get(predicted_class_int, "Bilinmeyen Sınıf")
         return predicted_class_name
     except Exception as e:
-        print(f"Tahmin hatası: {e}")
+        logging.error(f"Tahmin hatası: {e}")
         return "Tahmin Hatası"
-    
+
 async def load_data_from_db(language='en'):
     """
     Veritabanından dil bilgisine göre verileri yükler.

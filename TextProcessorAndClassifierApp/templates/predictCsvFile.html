@@ -69,7 +69,7 @@
 
     {% if columns %}
     <div class="form-box">
-        <form id="select-columns-form" method="post" action="{% url 'upload_predict_csv' %}">
+        <form id="select-columns-form" method="post" action="{% url 'select_predict_columns' %}">
             {% csrf_token %}
             <h2>Sütunları Seçin</h2>
             <p>Sınıflandırma işlemi için sütunları seçin:</p>
@@ -90,7 +90,7 @@
             <li>{{ column }}</li>
             {% endfor %}
         </ul>
-        <a href="{% url 'clsf_classify_csv' %}" class="btn btn-primary">Sınıflandırmayı Başlat</a>
+        <a href="{% url 'classifier_csv_file' %}" class="button">Sınıflandırmayı Başlat</a>
     </div>
     {% endif %}
 </div>
