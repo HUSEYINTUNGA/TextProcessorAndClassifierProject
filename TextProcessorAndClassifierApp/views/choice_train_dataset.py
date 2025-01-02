@@ -158,12 +158,13 @@ def balance_dataset(request):
                 ])
                 message = "Veri dağılımı dengelendi."
             elif action == 'use_as_is':
-                message = "Veri olduğu gibi kullanıldı."
+                user_csv_file=user_csv_file
+                message = "Veri seti olduğu kullanıldı"
             else:
                 return JsonResponse({'error': 'Geçersiz seçenek.'}, status=400)
 
             updated_class_distribution = user_csv_file[target_column].value_counts().to_dict()
-
+            print("User csv file global değişkeninin içeriği \n", user_csv_file)
             return render(request, 'choiceTrainDataset.html', {
                 'updated_class_distribution': updated_class_distribution,
                 'message': message,

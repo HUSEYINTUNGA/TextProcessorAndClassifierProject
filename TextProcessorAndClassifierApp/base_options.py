@@ -143,8 +143,8 @@ def predict_class(text, model_path, language='en'):
         vectorizer_path = os.path.join("ML_Model", "turkish_vectorizer.joblib")
         class_map = {v: k for k, v in convertTurkish.items()}
     else:
-        model_path = os.path.join("UserFiles/UserModels", 'user_models.joblib')
-        vectorizer_path = os.path.join("UserFiles/UserModels", 'user_vectorizer.joblib')
+        model_path = os.path.join("UserFiles/UserModels", model_path.get('model_path'))
+        vectorizer_path = os.path.join("UserFiles/UserModels", model_path.get('vectorizer_path'))
         class_map = {v: k for k, v in convertEnglish.items()}
 
     try:
