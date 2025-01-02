@@ -30,6 +30,7 @@ def select_using_dataset(request):
             if language:
                 try:
                     app_dataset = asyncio.run(load_data_from_db(language=language))
+                    request.shared_data['app_dataset'] = app_dataset
                     return render(request, 'choiceTrainDataset.html', {'dataset_loaded': True, 'use_custom_dataset': False})
                 except Exception as e:
                     return HttpResponse(f"Dataset yüklenirken hata oluştu: {e}", status=500)
@@ -162,9 +163,9 @@ def balance_dataset(request):
                 message = "Veri seti olduğu kullanıldı"
             else:
                 return JsonResponse({'error': 'Geçersiz seçenek.'}, status=400)
-
             updated_class_distribution = user_csv_file[target_column].value_counts().to_dict()
-            print("User csv file global değişkeninin içeriği \n", user_csv_file)
+            request.shared_data['user_csv_file'] = user_csv_file
+            request.shared_data['target_column']=target_column
             return render(request, 'choiceTrainDataset.html', {
                 'updated_class_distribution': updated_class_distribution,
                 'message': message,

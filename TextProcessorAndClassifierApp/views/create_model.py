@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from TextProcessorAndClassifierApp.views.choice_train_dataset import app_dataset, user_csv_file, target_column
 from TextProcessorAndClassifierApp.base_options import clean_text, detect_language
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
@@ -18,9 +17,12 @@ import datetime
 
 global_model_paths = {}
 selected_model_config = {}
+user_csv_file = None
+app_dataset = None
+target_column = None
 
 def choice_model_components(request):
-    global selected_model_config
+    global selected_model_config,app_dataset,user_csv_file,target_column
     if request.method == 'POST':
         selected_algorithm = request.POST.get('algorithm', 'SVM')
         selected_vectorizer = request.POST.get('vectorizer', 'TF-IDF')
@@ -41,6 +43,11 @@ def choice_model_components(request):
             'test_size': test_size,
             'random_state': random_state
         }
+
+        app_dataset = request.shared_data.get('app_dataset', None)
+        user_csv_file = request.shared_data.get('user_csv_file', None)
+        target_column = request.shared_data.get('target_column',None)
+        
         if app_dataset is not None:
             selected_model_config['dataset_choice'] = 'app'
         elif user_csv_file is not None:
@@ -52,7 +59,7 @@ def choice_model_components(request):
     return render(request, 'createModel.html')
 
 def train_model():
-    global global_model_paths, selected_model_config
+    global global_model_paths, selected_model_config,target_column
 
     try:
         if selected_model_config.get('dataset_choice') == 'app':
