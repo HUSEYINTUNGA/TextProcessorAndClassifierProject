@@ -41,12 +41,12 @@ def upload_predict_csv_file(request):
             try:
                 user_csv_file = pd.read_csv(csv_file)
                 columns = user_csv_file.columns.tolist()
-                return render(request, 'classify_csv.html', {'columns': columns, 'message': 'CSV dosyası başarıyla yüklendi.'})
+                return render(request, 'predictCsvFile.html', {'columns': columns, 'message': 'CSV dosyası başarıyla yüklendi.'})
             except Exception as e:
                 logging.error(f"CSV dosyası işlenirken hata: {e}")
                 return JsonResponse({'error': f'Hata oluştu: {str(e)}'}, status=400)
 
-        return render(request, 'classify_csv.html')
+        return render(request, 'predictCsvFile.html')
     except Exception as e:
         logging.error(f"classify_csv_page fonksiyonunda hata: {e}")
         return JsonResponse({'error': 'Bir hata oluştu. Lütfen tekrar deneyin.'})
@@ -73,17 +73,17 @@ def select_predict_columns(request):
 
             if not selected_columns:
                 columns = user_csv_file.columns.tolist()
-                return render(request, 'classify_csv.html', {
+                return render(request, 'predictCsvFile.html', {
                     'columns': columns,
                     'error_message': 'Hiçbir sütun seçilmedi. Lütfen en az bir sütun seçin.'
                 })
 
-            return render(request, 'classify_csv.html', {
+            return render(request, 'predictCsvFile.html', {
                 'selected_columns': selected_columns,
                 'columns': user_csv_file.columns.tolist()
             })
 
-        return render(request, 'classify_csv.html')
+        return render(request, 'predictCsvFile.html')
     except Exception as e:
         logging.error(f"select_columns fonksiyonunda hata: {e}")
         return JsonResponse({'error': 'Bir hata oluştu. Lütfen tekrar deneyin.'})
@@ -138,12 +138,6 @@ def classifier_csv_file(request):
                 }, detected_language)
 
                 try:
-                    print(detected_language)
-                    if detect_language=='tr':
-                        path_model="turkish_model.joblib"
-                    else:
-                        path_model="english_model.joblib"
-                    print("model path : ",path_model)
                     predicted_class = predict_class(processed_text,global_model_paths,detected_language)
                 except Exception as e:
                     logging.error(f"Tahmin sırasında hata: {e}")
