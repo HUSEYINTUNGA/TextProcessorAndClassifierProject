@@ -138,7 +138,6 @@ def balance_dataset(request):
     try:
         if request.method == 'POST':
             action = request.POST.get('action', None)
-            print("Seçilen dengeleme adımı: ", action)
             if not action:
                 return JsonResponse({'error': 'Bir seçenek seçmelisiniz.'}, status=400)
 
@@ -165,7 +164,8 @@ def balance_dataset(request):
                 return JsonResponse({'error': 'Geçersiz seçenek.'}, status=400)
             updated_class_distribution = user_csv_file[target_column].value_counts().to_dict()
             request.shared_data['user_csv_file'] = user_csv_file
-            request.shared_data['target_column']=target_column
+            request.shared_data['target_column'] = target_column
+
             return render(request, 'choiceTrainDataset.html', {
                 'updated_class_distribution': updated_class_distribution,
                 'message': message,

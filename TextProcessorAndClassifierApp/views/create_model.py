@@ -44,16 +44,16 @@ def choice_model_components(request):
             'random_state': random_state
         }
 
-        app_dataset = request.shared_data.get('app_dataset', None)
-        user_csv_file = request.shared_data.get('user_csv_file', None)
-        target_column = request.shared_data.get('target_column',None)
-        
+        app_dataset = request.shared_data['app_dataset']
+        user_csv_file = request.shared_data['user_csv_file']
+        target_column = request.shared_data['target_column']
+        print(request.shared_data.get('user_csv_file', None))
         if app_dataset is not None:
             selected_model_config['dataset_choice'] = 'app'
         elif user_csv_file is not None:
             selected_model_config['dataset_choice'] = 'custom'
         else:
-            return JsonResponse({'error': 'Herhangi bir veri seti bulunamadı.'}, status=400)
+            return JsonResponse({'error': ' Bu mesajı choice_model_components fonksiyonu gönderdi. Herhangi bir veri seti bulunamadı.'}, status=400)
         model_metrics=train_model()
         return render(request, 'user_model_training_results.html',{'training_results':model_metrics})
     return render(request, 'createModel.html')

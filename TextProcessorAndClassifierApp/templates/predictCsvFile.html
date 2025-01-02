@@ -58,7 +58,7 @@
 <div class="container">
     <h1>CSV Verilerini Sınıflandırma</h1>
     <div class="form-box">
-        <form id="classify-form" method="post" enctype="multipart/form-data" action="{% url 'clsf_upload_csv' %}">
+        <form id="classify-form" method="post" enctype="multipart/form-data" action="{% url 'upload_predict_csv' %}">
             {% csrf_token %}
             <label for="csvFile">CSV Dosyanızı Yükleyin:</label>
             <input type="file" id="csvFile" name="csv_file" accept=".csv" required>
