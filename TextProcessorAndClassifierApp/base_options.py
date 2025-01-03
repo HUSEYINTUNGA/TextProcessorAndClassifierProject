@@ -54,7 +54,6 @@ def detect_language(user_text):
         return "Language detection error"
 
 def clean_text(user_text, options, language='en'):
-    print("clean_text fonksiyonu çağrıldı")
     """
     Metni temizler ve belirtilen işlemleri uygular.
 
@@ -123,13 +122,14 @@ convertTurkish = {
     "Teknoloji": 5,
 }
 
-def predict_class(text, model_path, language='en'):
+def predict_class(text, model_path,vectorizer_path, language='en'):
     """
     Girdi metnini sınıflandırır ve tahmin edilen sınıfı döndürür.
 
     Parametreler:
         text (str): Sınıflandırılacak metin.
         model_path (str): Kullanılacak modelin dosya yolu.
+        vectorizer_path (str): Kullanılacak vektörizerin dosya yolu.
         language (str): 'en' veya 'tr' olarak dil seçimi.
 
     Döndürür:
@@ -144,9 +144,8 @@ def predict_class(text, model_path, language='en'):
         vectorizer_path = os.path.join("ML_Model", "turkish_vectorizer.joblib")
         class_map = {v: k for k, v in convertTurkish.items()}
     else:
-        print("kullanıcınn modeli çalıştı")
-        model_path = os.path.join("UserFiles/UserModels", model_path.get('model_path'))
-        vectorizer_path = os.path.join("UserFiles/UserModels", model_path.get('vectorizer_path'))
+        model_path = model_path
+        vectorizer_path = vectorizer_path
         class_map = {v: k for k, v in convertEnglish.items()}
 
     try:

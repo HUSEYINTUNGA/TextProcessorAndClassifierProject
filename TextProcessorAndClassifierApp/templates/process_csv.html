@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}CSV Yükleme ve İşleme{% endblock %}
+{% block title %}CSV Verilerini İşleme - TPAC{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -21,6 +21,7 @@
         border-radius: 8px;
         box-shadow: 0 4px 6px #cdbe70;
         border: 2px solid #000000;
+        position: relative;
     }
 
     .form-group {
@@ -42,15 +43,20 @@
         margin-top: 10px;
     }
 
-    .btn {
-        margin-top: 10px;
+    .button {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: auto;
+        height: 40px;
         background-color: #000000;
         border-bottom: 5px solid #cdbe70;
         transition: background-color 0.3s ease, border-bottom-color 0.3s ease;
         color: #cdbe70;
+        border-radius: 10px;
     }
 
-    .btn:hover {
+    .button:hover {
         background-color: #cdbe70;
         border-bottom-color: #000000;
         color: #000000;
@@ -73,46 +79,55 @@
         width: 100%;
         max-width: 600px;
     }
+
+    .error-message {
+        margin-bottom: 10px;
+        color: #d93025;
+        background-color: #fdecea;
+        border: 1px solid #d93025;
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1>CSV Dosyası İşleme</h1>
-    <div class="form-box">
+    <h1>CSV Verilerini İşleme</h1>
+    <div class="form-box" id="csv-form">
+        <div id="csv-error-message" class="error-message" style="display:none;"></div>
         <form method="post" enctype="multipart/form-data" action="{% url 'prcs_upload_csv' %}" id="csv-form">
             {% csrf_token %}
             <label for="csvFile">CSV Dosyanızı Yükleyin:</label>
             <input type="file" name="csv_file" id="csvFile" accept=".csv" required>
-            <div id="error-message" class="error-message"></div>
-            <button class="btn" type="submit">Yükle</button>
+            <button class="button" type="submit">Dosyayı Yükle</button>
         </form>
     </div>
 
-    <!-- CSV Sütunlarını Seçme Formu -->
     {% if columns %}
     <div class="form-box">
+        <div id="columns-error-message" class="error-message" style="display:none;"></div>
         <form method="post" action="{% url 'prcs_select_columns' %}" id="columns-form">
             {% csrf_token %}
-            <h2>CSV Sütunlarını Seçin</h2>
+            <h2 class="text-center">CSV Sütunlarını Seçin</h2>
             <p>Sütunlardan işlem yapmak istediklerinizi seçin:</p>
             {% for column in columns %}
             <label>
                 <input type="checkbox" name="selected_columns" value="{{ column }}"> {{ column }}
             </label><br>
             {% endfor %}
-            <div class="error-message"></div>
-            <button class="btn btn-primary" type="submit">İşlem Yap</button>
+            <button class="button" type="submit">Sütunları Seç</button>
         </form>
     </div>
     {% endif %}
 
-    <!-- İşlem Seçenekleri -->
     {% if selected_columns %}
     <div class="form-box">
+        <div id="text-processor-error-message" class="error-message" style="display:none;"></div>
         <form method="post" action="{% url 'prcs_process_csv' %}" id="textProcessorForm">
             {% csrf_token %}
-            <h2>Metin İşlemleri</h2>
+            <h2 class="text-center">Metin İşlemleri</h2>
             <p>Sütun verilerine uygulanacak işlemleri seçin:</p>
             <div class="checkbox-group">
                 <label><input type="checkbox" name="remove_punctuation"> Noktalama İşaretlerini Kaldır</label>
@@ -123,8 +138,7 @@
                 <label><input type="checkbox" name="stemming"> Kökleme (Stemming)</label>
                 <label><input type="checkbox" name="lemmatization"> Lemmatizasyon</label>
             </div>
-            <div class="error-message"></div>
-            <button class="btn btn-primary" type="submit">Metni İşle</button>
+            <button class="button" type="submit">İşlemleri Uygula</button>
         </form>
     </div>
     {% endif %}
@@ -137,81 +151,74 @@
         const csvForm = document.getElementById("csv-form");
         const columnsForm = document.getElementById("columns-form");
         const textProcessorForm = document.getElementById("textProcessorForm");
-        const showError = (element, message) => {
-            const errorElement = element.querySelector(".error-message");
+
+        const showError = (errorElementId, message) => {
+            const errorElement = document.getElementById(errorElementId);
             if (errorElement) {
                 errorElement.textContent = message;
                 errorElement.style.display = "block";
             }
         };
-    
-        const clearError = (element) => {
-            const errorElement = element.querySelector(".error-message");
+
+        const clearError = (errorElementId) => {
+            const errorElement = document.getElementById(errorElementId);
             if (errorElement) {
                 errorElement.textContent = "";
                 errorElement.style.display = "none";
             }
         };
-    
+
         if (csvForm) {
             csvForm.addEventListener("submit", (event) => {
                 const fileInput = document.getElementById("csvFile");
-    
                 if (!fileInput.value) {
-                    showError(csvForm, "Lütfen bir dosya seçin.");
+                    showError("csv-error-message", "Lütfen bir dosya seçin.");
                     event.preventDefault();
                 } else {
                     const file = fileInput.files[0];
                     const fileName = file.name;
                     const fileSize = file.size;
-    
                     if (!fileName.endsWith(".csv")) {
-                        showError(csvForm, "Lütfen yalnızca .csv uzantılı dosyalar yükleyin.");
+                        showError("csv-error-message", "Lütfen yalnızca .csv uzantılı dosyalar yükleyin.");
                         event.preventDefault();
                     } else if (fileSize > 10 * 1024 * 1024) {
-                        showError(csvForm, "Dosya boyutu çok büyük. Lütfen 10MB'den küçük bir dosya yükleyin.");
+                        showError("csv-error-message", "Dosya boyutu çok büyük. Lütfen 10MB'den küçük bir dosya yükleyin.");
                         event.preventDefault();
                     } else {
-                        clearError(csvForm);
+                        clearError("csv-error-message");
                     }
                 }
-                
             });
         }
-    
+
         if (columnsForm) {
+            csvForm.style.display = "none";
             columnsForm.addEventListener("submit", (event) => {
                 const selectedColumns = Array.from(
                     columnsForm.querySelectorAll('input[name="selected_columns"]:checked')
                 );
-    
+
                 if (selectedColumns.length === 0) {
-                    showError(columnsForm, "Lütfen en az bir sütun seçin.");
+                    showError("columns-error-message", "Lütfen en az bir sütun seçin.");
                     event.preventDefault();
                 } else {
-                    clearError(columnsForm);
-                    columnsForm.style.display = "none";
-                    console.log("Seçilen Sütunlar:", selectedColumns.map(column => column.value));
+                    clearError("columns-error-message");
                 }
-                buttonTakeAction.disabled = false;
             });
         }
-    
-    
+
         if (textProcessorForm) {
+            csvForm.style.display = "none";
             textProcessorForm.addEventListener("submit", (event) => {
                 const selectedOptions = Array.from(
                     textProcessorForm.querySelectorAll("input[type='checkbox']:checked")
                 );
-    
+
                 if (selectedOptions.length === 0) {
-                    showError(textProcessorForm, "Lütfen en az bir işlem seçin.");
+                    showError("text-processor-error-message", "Lütfen en az bir işlem seçin.");
                     event.preventDefault();
                 } else {
-                    clearError(textProcessorForm);
-    
-                    
-                    console.log("Seçilen İşlemler:", selectedOptions.map(option => option.name));
+                    clearError("text-processor-error-message");
                 }
             });
         }

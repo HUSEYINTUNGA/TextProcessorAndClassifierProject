@@ -1,21 +1,117 @@
 {% extends 'base.html' %}
-{% block title %}Model Eğitim Sonuçları{% endblock %}
+{% block title %}Model Eğitim Sonuçları - TPAC{% endblock %}
+{% block extra_css %}
+<style>
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            font-family: 'Arial', sans-serif;
+        }
 
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #000000;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .card {
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px black;
+            border-bottom: 5px solid #cdbe70;
+        }
+
+        .card-header {
+            background-color: #000000;
+            color: #cdbe70;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .card-body {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .card-body pre {
+            background-color: #333;
+            color: #cdbe70;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 1rem;
+            overflow-x: auto;
+        }
+
+        .btn {
+            border-radius: 10px;
+            font-size: 1.1rem;
+            padding: 10px 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .btn-success {
+            background-color: #28a745;
+            border: none;
+            color: #fff;
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            border: none;
+            color: #fff;
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+
+
+        .mt-4 {
+            margin-top: 30px;
+        }
+
+        .text-center h4 {
+            color: #000000;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+</style>
+{% endblock %}
 {% block content %}
-<div class="container mt-5">
+
     <h1 class="text-center">Model Eğitim Sonuçları</h1>
 
     <div class="card mt-4">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header">
             <h3 class="card-title">Eğitim Doğruluğu</h3>
         </div>
         <div class="card-body">
-            <p><strong>Doğruluk Oranı:</strong> {{ training_results.accuracy|floatformat:2 }}%</p>
+            <p><strong>Doğruluk Oranı:</strong> {{ training_results.accuracy|floatformat:2}}%</p>
         </div>
     </div>
 
     <div class="card mt-4">
-        <div class="card-header bg-secondary text-white">
+        <div class="card-header">
             <h3 class="card-title">Sınıflandırma Raporu</h3>
         </div>
         <div class="card-body">
@@ -31,5 +127,5 @@
             <button type="submit" name="user_choice" value="no" class="btn btn-danger btn-lg">Hayır, Modeli Yeniden Oluştur</button>
         </div>
     </form>
-</div>
+
 {% endblock %}

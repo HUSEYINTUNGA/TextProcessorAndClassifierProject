@@ -79,7 +79,6 @@ def classify_select_columns(request):
 
             return render(request, 'classify_csv.html', {
                 'selected_columns': selected_columns,
-                'columns': user_csv_file.columns.tolist()
             })
 
         return render(request, 'classify_csv.html')
@@ -137,12 +136,10 @@ def classify_csv_data(request):
                 }, detected_language)
 
                 try:
-                    print(detected_language)
                     if detect_language=='tr':
                         path_model="turkish_model.joblib"
                     else:
                         path_model="english_model.joblib"
-                    print("model path : ",path_model)
                     predicted_class = predict_class(processed_text,path_model,detected_language)
                 except Exception as e:
                     logging.error(f"Tahmin sırasında hata: {e}")

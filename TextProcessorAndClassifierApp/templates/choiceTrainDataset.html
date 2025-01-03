@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Create Training Dataset{% endblock %}
+{% block title %}Eğitim Verisini Seç - TPAC{% endblock %}
 {% block extra_css %}
 <style>
     .container {
@@ -10,15 +10,15 @@
         align-items: center;
     }
     .form-box {
-        width: 400px;
+        width: 100%;
         max-width: 800px;
         padding: 20px;
         margin-bottom: 20px;
         background-color: #f8f9fa;
         border-radius: 8px;
-        box-shadow: 0 4px 6px #007bff;
-        border: 2px solid #35424a;
-        align-items: center;
+        box-shadow: 0 4px 6px #cdbe70;
+        border: 2px solid #000000;
+        position: relative;
     }
 
     .form-group {
@@ -36,18 +36,27 @@
     .form-check-input {
         margin-right: 10px;
     }
-    
-    .btn-primary {
+    input[type="file"] {
+        display: block;
         margin-top: 10px;
-        background-color: #35424a;
-        border-bottom: 5px solid #007bff;
+    }
+    .button {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: auto;
+        height: 40px;
+        background-color: #000000;
+        border-bottom: 5px solid #cdbe70;
         transition: background-color 0.3s ease, border-bottom-color 0.3s ease;
+        color: #cdbe70;
+        border-radius: 10px;
     }
 
-    .btn-primary:hover {
-        background-color: #007bff;
-        border-bottom-color: #35424a;
-        color: #fff;
+    .button:hover {
+        background-color: #cdbe70;
+        border-bottom-color: #000000;
+        color: #000000;
         transform: translateY(-2px);
     }
 
@@ -55,106 +64,138 @@
         display: none;
         margin-top: 15px;
     }
+    .error-message{
+        margin-bottom: 10px;
+        color: #d93025;
+        background-color: #fdecea;
+        border: 1px solid #d93025;
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        text-align: center;
+    }
+    #balancedData {
+        position: relative;
+        padding-bottom: 50px;
+    }
+    
+    #balancedData .button {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: auto;
+        height: 40px;
+        background-color: #000000;
+        border-bottom: 5px solid #cdbe70;
+        transition: background-color 0.3s ease, border-bottom-color 0.3s ease;
+        color: #cdbe70;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+    
+    #balancedData table {
+        margin-bottom: 60px;
+    }
 </style>
 {% endblock %}
 {% block content %}
 <div class="container">
-    <h2 class="text-center">Dataset Seçimi</h2>
-    <p class="text-center">Modelinizi oluşturmak için bir dataset seçin.</p>
-    <div id="datasetSecimi">
-        <form method="POST" action="{% url 'select_using_dataset' %}">
-            {% csrf_token %}
-            <div class="form-box">
-                <!-- Dataset seçimi -->
-                <div class="form-group">
-                    <input class="form-check-input" type="radio" name="dataset_option" id="app_dataset" value="app_dataset" required>
-                    <label for="app_dataset">Uygulamanın Varsayılan Datasetini Kullan</label>
-                </div>
-                <div class="form-group">
-                    <input class="form-check-input" type="radio" name="dataset_option" id="custom_dataset" value="custom_dataset" required>
-                    <label for="custom_dataset">Kendi Datasetimi Yüklemek İstiyorum</label>
-                </div>
-            
-                <!-- <div id="language-options" class="language-options">
-                    <div class="dataset-info mt-4">
-                        <h3>Uygulamanın Dataset Bilgileri</h3>
-                        <h4>İngilizce Dataset:</h4>
-                        <ul>
-                            <li>World: 300</li>
-                            <li>Sports: 300</li>
-                            <li>Business: 300</li>
-                            <li>Sci/Tech: 300</li>
-                            <li>Entertainment: 300</li>
-                            <li>Politics: 300</li>
-                            <li>Medicine: 299</li>
-                        </ul>
-            
-                        <h4>Türkçe Dataset:</h4>
-                        <ul>
-                            <li>Ekonomi: 1275</li>
-                            <li>Kültür-Sanat: 1071</li>
-                            <li>Sağlık: 1199</li>
-                            <li>Siyaset: 1280</li>
-                            <li>Spor: 1225</li>
-                            <li>Teknoloji: 1225</li>
-                        </ul>
-                    </div>
-                    <h5>Varsayılan dataset için bir dil seçin:</h5>
+    <h1 class="text-center">Kendi Sınıflandırma Modelinizi oluşturun.</h1>
+            <!-- Dataset seçimi -->
+            <div class="form-box" id="dataset_form_box">
+                <form id="dataset_form" method="POST" action="{% url 'select_using_dataset' %}">
+                    {% csrf_token %}
+                    <div id="dataset_error" class="error-message" style="display: none;"></div>
+                    <p>Model eğitimi için bir dataset seçin:</p>
                     <div class="form-group">
-                        <input class="form-check-input" type="radio" name="language" id="english_dataset" value="en" required>
-                        <label for="english_dataset">İngilizce Dataset</label>
+                        <input type="radio" name="dataset_option" id="app_dataset" value="app_dataset" required>
+                        <label for="app_dataset">Uygulamanın Varsayılan Datasetini Kullan</label>
                     </div>
                     <div class="form-group">
-                        <input class="form-check-input" type="radio" name="language" id="turkish_dataset" value="tr" required>
-                        <label for="turkish_dataset">Türkçe Dataset</label>
+                        <input type="radio" name="dataset_option" id="custom_dataset" value="custom_dataset" required>
+                        <label for="custom_dataset">Kendi Datasetimi Yüklemek İstiyorum</label>
                     </div>
-                </div> -->
-                <button type="submit" class="btn btn-primary" id="uploadDatasetBttn">Dataset Seçimini Tamamla</button>
-            </div> 
-        </form>
-    </div>
+                        <!-- <div id="language-options" class="language-options">
+                            <div class="dataset-info mt-4">
+                                <h3>Uygulamanın Dataset Bilgileri</h3>
+                                <h4>İngilizce Dataset:</h4>
+                                <ul>
+                                    <li>World: 300</li>
+                                    <li>Sports: 300</li>
+                                    <li>Business: 300</li>
+                                    <li>Sci/Tech: 300</li>
+                                    <li>Entertainment: 300</li>
+                                    <li>Politics: 300</li>
+                                    <li>Medicine: 299</li>
+                                </ul>
+                    
+                                <h4>Türkçe Dataset:</h4>
+                                <ul>
+                                    <li>Ekonomi: 1275</li>
+                                    <li>Kültür-Sanat: 1071</li>
+                                    <li>Sağlık: 1199</li>
+                                    <li>Siyaset: 1280</li>
+                                    <li>Spor: 1225</li>
+                                    <li>Teknoloji: 1225</li>
+                                </ul>
+                            </div>
+                            <h5>Varsayılan dataset için bir dil seçin:</h5>
+                            <div class="form-group">
+                                <input class="form-check-input" type="radio" name="language" id="english_dataset" value="en" required>
+                                <label for="english_dataset">İngilizce Dataset</label>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-check-input" type="radio" name="language" id="turkish_dataset" value="tr" required>
+                                <label for="turkish_dataset">Türkçe Dataset</label>
+                            </div>
+                        </div> -->
+                        <button type="submit" class="button" id="uploadDatasetBttn">Dataset Seçimini Tamamla</button>
+                </form>
+            </div>
+
             {% if dataset_loaded %}
             <div class="form-box">
                 <h3>Dataset Yüklendi</h3>
                 <p>Eğitim için uygulamanın datasetlerini kullanmayı seçtiniz. Şimdi model bileşenlerini seçmek için ilerleyebilirsiniz.</p>
-                <a href="{% url 'choice_model_components' %}" class="btn btn-primary">Model Bileşenlerini Seç</a>
+                <a href="{% url 'choice_model_components' %}" class="button">Model Bileşenlerini Seç</a>
             </div>
             {% endif %}
+
             <!-- Kullanıcının eğitim datasetini yükleme formu-->      
             {% if use_custom_dataset %}
-            <div class="form-box">
-                <h3>Özel Dataset Yükle</h3>
-                <form method="POST" enctype="multipart/form-data" action="{% url 'custom_dataset' %}">
+            <div class="form-box" id="upload_form_box">
+                <form id="upload_form" method="POST" enctype="multipart/form-data" action="{% url 'custom_dataset' %}">
                     {% csrf_token %}
+                    <div id="file_error" class="error-message" style="display: none;"></div>
                     <label for="csv_file">CSV Dosyası Seç:</label>
-                    <input type="file" name="csv_file" id="csv_file" accept=".csv">
-                    <button type="submit" class="btn btn-primary">Dosyayı Yükle</button>
+                    <input type="file" id="csv_file" name="csv_file" accept=".csv" required>
+                    <button type="submit" class="button">Dosyayı Yükle</button>
                 </form>
             </div>
             {% endif %}
 
             <!-- Hedef sütun seçim formu-->
             {% if columns %}
-            <div class="form-box">
-                <form id="select-columns-form" method="post" action="{% url 'select_target_column' %}">
+            <div class="form-box" id="columns_form_box">
+                <form id="columns_form" method="POST" action="{% url 'select_target_column' %}">
                     {% csrf_token %}
-                    <h2>Hedef Sütunu Seç</h2>
-                    <p>Model eğitiminde kullanılacak etiket sütununu seçin:</p>
+                    <div id="columns_error" class="error-message" style="display: none;"></div>
+                    <h2 class="text-center">Hedef Sütunu Seç</h2>
+                    <p>Model eğitimi için etiket sütununu seçin:</p>
                     {% for column in columns %}
-                        <div class="form-group">
-                            <input type="radio" name="selected_column" id="column_{{ column }}" value="{{ column }}" required>
-                            <label for="column_{{ column }}">{{ column }}</label>
-                        </div>
+                    <div class="form-group">
+                        <input type="radio" name="selected_column" id="column_{{ column }}" value="{{ column }}" required>
+                        <label for="column_{{ column }}">{{ column }}</label>
+                    </div>
                     {% endfor %}
-                    <div class="error-message" id="columns-error"></div>
-                    <button class="btn btn-primary" type="submit">Sütunu Seç</button>
+                    <button type="submit" class="button">Hedef Sütunu Seç</button>
                 </form>
             </div>
             {% endif %}
             
             {% if selected_column %}
-            <div class="form-box">
-                <h2>Seçilen Sütun</h2>
+            <div class="form-box" id="selected_target_column">
+                <h2 class="text-center">Seçilen Sütun</h2>
                 <ul>
                     <li>{{ selected_column }}</li>
                 </ul>
@@ -183,36 +224,72 @@
                     </table>
                     {% csrf_token %}
                     <div class="form-group">
-                        <input class="form-check-input" type="radio" name="action" id="remove_low_classes" value="remove_low_classes" required>
+                        <input type="radio" name="action" id="remove_low_classes" value="remove_low_classes" required>
                         <label for="remove_low_classes">En az veri içeren sınıfları kaldır</label>
                     </div>
                     <div class="form-group">
-                        <input class="form-check-input" type="radio" name="action" id="balance_distribution" value="balance_distribution" required>
+                        <input type="radio" name="action" id="balance_distribution" value="balance_distribution" required>
                         <label for="balance_distribution">Dağılımı dengele</label>
                     </div>
                     <div class="form-group">
-                        <input class="form-check-input" type="radio" name="action" id="use_as_is" value="use_as_is" required>
+                        <input type="radio" name="action" id="use_as_is" value="use_as_is" required>
                         <label for="use_as_is">Olduğu gibi kullan</label>
                     </div>
-                    <button type="submit" class="btn btn-primary">Uygula</button>
+                    <button type="submit" class="button">Dengeleme İşlemini Uygula</button>
                 </form>
             </div>
             {% endif %}
 
             {% if updated_class_distribution %}
-            <div class="form-box">
-                <h3>Veri Dengeleme Sonuçları</h3>
-                <ul>
-                    {% for class_name, count in updated_class_distribution.items %}
-                    <li>{{ class_name }}: {{ count }} adet</li>
-                    {% endfor %}
-                </ul>
-                <p>{{ message }}</p>
+            <div class="form-box" id="balancedData">
+                <h3 class="text-center">Veri Dengeleme Sonuçları</h3>
+                <table class="table table-striped" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background-color: #35424a; color: white; text-align: center;">
+                            <th style="padding: 10px; border: 1px solid #ddd;">Sınıf</th>
+                            <th style="padding: 10px; border: 1px solid #ddd;">Adet</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for class_name, count in updated_class_distribution.items %}
+                        <tr style="text-align: center;">
+                            <td style="padding: 10px; border: 1px solid #ddd;">{{ class_name }}</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">{{ count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
                 <form method="GET" action="{% url 'choice_model_components' %}">
-                    <button type="submit" class="btn btn-primary">Model Bileşenlerini Seç</button>
+                    <button type="submit" class="button">Model Bileşenlerini Seç</button>
                 </form>
             </div>
             {% endif %}
         </div>
 </div>
+{% endblock %}
+{% block extra_js%}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const datasetForm = document.getElementById("dataset_form_box");
+        const customDatasetForm = document.getElementById("upload_form_box");
+        const selectColumnsDiv = document.getElementById("columns_form_box");
+        const targetColumnForm = document.getElementById("selected_target_column");
+        const balancedDataForm = document.getElementById("balancedData")
+
+        if(customDatasetForm){
+            datasetForm.style.display = "none";
+        }
+        if(selectColumnsDiv){
+            datasetForm.style.display = "none";
+            customDatasetForm.style.display = "none";
+        }
+        if(targetColumnForm){
+            datasetForm.style.display = "none";
+        }
+        if(balancedDataForm){
+            datasetForm.style.display = "none";
+        }
+
+    });
+</script>
 {% endblock %}

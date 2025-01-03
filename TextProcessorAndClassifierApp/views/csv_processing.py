@@ -67,7 +67,7 @@ def process_select_columns(request):
             if not selected_columns:
                 return JsonResponse({'error': 'Hiçbir sütun seçilmedi.'}, status=400)
 
-            return render(request, 'process_csv.html', {'selected_columns': selected_columns, 'columns': user_csv_file.columns.tolist()})
+            return render(request, 'process_csv.html', {'selected_columns': selected_columns})
 
         return render(request, 'process_csv.html')
     except Exception as e:

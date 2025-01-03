@@ -1,17 +1,70 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Model Oluştur{% endblock %}
+{% block title %}Model Oluştur - TPAC{% endblock %}
 {% block extra_css %}
 <style>
+    h1 {
+        color: #000;
+        font-family: Arial, sans-serif;
+    }
+    .form-group label {
+        color: #333;
+        font-weight: bold;
+    }
+    .form-control {
+        border: 1px solid #000000;
+        border-radius: 8px;
+        padding: 10px;
+        margin-top: 10px;
+        box-shadow: inset 0 1px 3px #cdbe70;
+        transition: border-color 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #000000; 
+        box-shadow: 0 0 5px #cdbe70; 
+    }
+
+    .button {
+        position: relative;
+        margin-top: 30px;
+        width: 100%;
+        height: 50px;
+        background-color: #000000;
+        border-bottom: 5px solid #cdbe70;
+        color: #cdbe70;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        transition: background-color 0.3s ease, border-bottom-color 0.3s ease;
+        text-align: center;
+        display: block;
+    }
+
+    .button:hover {
+        background-color: #cdbe70;
+        border-bottom-color: #000000;
+        color: #000000;
+        transform: translateY(-2px);
+    }
+
+    .button:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
     .parameter-group {
-        margin-top: 15px;
+        margin-top: 20px;
+    }
+
+    .parameter-group label {
+        margin-top: 10px;
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
     <h1 class="text-center">Model Oluştur</h1>
 
     <form method="post" action="{% url 'choice_model_components' %}" id="modelForm">
@@ -32,7 +85,7 @@
         </div>
 
         <!-- Vektörleştirici seçimi -->
-        <div class="form-group mt-3">
+        <div class="form-group">
             <label for="vectorizer">Vektörleştirici Seçin:</label>
             <select id="vectorizer" name="vectorizer" class="form-control" required>
                 <option value="TF-IDF">TF-IDF</option>
@@ -42,19 +95,19 @@
         </div>
 
         <!-- Test seti oranı -->
-        <div class="form-group mt-3">
+        <div class="form-group">
             <label for="test_size">Test Seti Oranı:</label>
             <input type="number" step="0.01" id="test_size" name="test_size" value="0.2" class="form-control" min="0" max="1" required>
         </div>
 
         <!-- Rastgele durum -->
-        <div class="form-group mt-3">
+        <div class="form-group">
             <label for="random_state">Random State:</label>
             <input type="number" id="random_state" name="random_state" value="42" class="form-control" required>
         </div>
 
         <!-- Algoritma özel parametreleri -->
-        <div class="form-group mt-3" id="algorithm-parameters">
+        <div class="form-group" id="algorithm-parameters">
             <div id="SVM-parameters" class="parameter-group" style="display: none;">
                 <label for="c_value">C (Regularization):</label>
                 <input type="number" step="0.1" id="c_value" name="c_value" value="1.0" class="form-control">
@@ -79,9 +132,8 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-primary mt-4">Modeli Oluştur</button>
+        <button type="submit" class="button">Modeli Oluştur</button>
     </form>
-</div>
 {% endblock %}
 {% block extra_js %}
 <script>
@@ -99,6 +151,32 @@
         });
 
         algorithmSelect.dispatchEvent(new Event("change"));
+
+        document.getElementById("modelForm").addEventListener("submit", (event) => {
+            let valid = true;
+
+            const testSize = parseFloat(document.getElementById("test_size").value);
+            const testSizeError = document.getElementById("test_size_error");
+            if (isNaN(testSize) || testSize < 0 || testSize > 1) {
+                valid = false;
+                testSizeError.textContent = "Test Seti Oranı 0 ile 1 arasında olmalıdır.";
+            } else {
+                testSizeError.textContent = "";
+            }
+
+            const randomState = document.getElementById("random_state").value;
+            const randomStateError = document.getElementById("random_state_error");
+            if (randomState === "" || isNaN(parseInt(randomState))) {
+                valid = false;
+                randomStateError.textContent = "Random State bir tam sayı olmalıdır.";
+            } else {
+                randomStateError.textContent = "";
+            }
+
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
     });
 </script>
 {% endblock %}

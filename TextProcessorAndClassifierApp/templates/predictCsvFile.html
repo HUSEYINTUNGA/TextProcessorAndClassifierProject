@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Sınıflandırma{% endblock %}
+{% block title %}Kendi Modeline Sınıflandırma - TPAC{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -17,26 +17,35 @@
         max-width: 600px;
         padding: 20px;
         margin-bottom: 20px;
-        background-color: #f8f9fa;
+        background-color: #ffffff;
         border-radius: 8px;
         box-shadow: 0 4px 6px #cdbe70;
         border: 2px solid #000000;
-    }
-
-    h1, h2 {
-        text-align: center;
+        position: relative;
     }
 
     label {
         font-weight: bold;
     }
-
-    .button {
+    label:hover{
+        transform: translateY(-2px);
+        font-weight: bold;
+    }
+    input[type="file"] {
+        display: block;
         margin-top: 10px;
+    }
+    .button {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: auto;
+        height: 40px;
         background-color: #000000;
         border-bottom: 5px solid #cdbe70;
         transition: background-color 0.3s ease, border-bottom-color 0.3s ease;
-        color:#cdbe70;
+        color: #cdbe70;
+        border-radius: 10px;
     }
 
     .button:hover {
@@ -47,43 +56,52 @@
     }
 
     .error-message {
-        display: none;
-        color: red;
-        font-size: 0.9em;
+        margin-bottom: 10px;
+        color: #d93025;
+        background-color: #fdecea;
+        border: 1px solid #d93025;
+        padding: 10px;
+        border-radius: 5px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    h1, h2 {
+        text-align: center;
     }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="container">
-    <h1>CSV Verilerini Sınıflandırma</h1>
-    <div class="form-box">
+    <h1>Kendi Oluşturduğun Modeli Kullanarak CSV Verilerini Sınıflandır</h1>
+    <div class="form-box" id="csv_form">
+        <div id="csv_file_error" class="error-message" style="display: none;"></div>
         <form id="classify-form" method="post" enctype="multipart/form-data" action="{% url 'upload_predict_csv' %}">
             {% csrf_token %}
             <label for="csvFile">CSV Dosyanızı Yükleyin:</label>
             <input type="file" id="csvFile" name="csv_file" accept=".csv" required>
-            <div class="error-message" id="file-error"></div>
             <button class="button" type="submit">Dosyayı Yükle</button>
         </form>
     </div>
 
     {% if columns %}
-    <div class="form-box">
-        <form id="select-columns-form" method="post" action="{% url 'select_predict_columns' %}">
+    <div class="form-box" id="select_columns_form">
+        <div id="columns_error" class="error-message" style="display: none;"></div>
+        <form id="select_columns_form" method="post" action="{% url 'select_predict_columns' %}">
             {% csrf_token %}
             <h2>Sütunları Seçin</h2>
             <p>Sınıflandırma işlemi için sütunları seçin:</p>
             {% for column in columns %}
             <label><input type="checkbox" name="selected_columns" value="{{ column }}"> {{ column }}</label><br>
             {% endfor %}
-            <div class="error-message" id="columns-error"></div>
             <button class="button" type="submit">Sütunları Seç</button>
         </form>
     </div>
     {% endif %}
 
     {% if selected_columns %}
-    <div class="form-box">
+    <div class="form-box" id="csv_classifier">
         <h2>Seçilen Sütunlar</h2>
         <ul>
             {% for column in selected_columns %}
@@ -99,42 +117,51 @@
 {% block extra_js %}
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        const selectColumnsForm = document.getElementById("select-columns-form");
-        const columnsError = document.getElementById("columns-error");
+        const csvForm = document.getElementById("csv_form");
         const fileInput = document.getElementById("csvFile");
-        const fileError = document.getElementById("file-error");
+        const fileError = document.getElementById("csv_file_error");
+        const classifierForm=document.getElementById("csv_classifier")
+
+        fileInput.addEventListener("change", () => {
+            const file = fileInput.files[0];
+            if (file && file.size > 10 * 1024 * 1024) {
+                fileError.textContent = "Dosya boyutu çok büyük! Lütfen 10 MB'den küçük bir dosya yükleyin.";
+                fileError.style.display = "block";
+                fileInput.value = "";
+            } else {
+                fileError.style.display = "none";
+            }
+        });
     
-        if (fileInput) {
-            fileInput.addEventListener("change", () => {
-                const file = fileInput.files[0];
+        csvForm.addEventListener("submit", (event) => {
+            if (!fileInput.value) {
+                fileError.textContent = "Lütfen bir dosya seçin.";
+                fileError.style.display = "block";
+                event.preventDefault();
+            }
+        });
     
-                if (file.size > 10 * 1024 * 1024) {
-                    fileError.textContent = "Dosya boyutu çok büyük! Lütfen 10 MB'den küçük bir dosya yükleyin.";
-                    fileError.style.display = "block";
-                    fileInput.value = ""; 
-                } else {
-                    fileError.style.display = "none";
-                }
-            });
-        }
-    
+        const selectColumnsForm = document.getElementById("select_columns_form");
         if (selectColumnsForm) {
+            csvForm.style.display = "none";
+            const columnsError = document.getElementById("columns_error");
             selectColumnsForm.addEventListener("submit", (event) => {
                 const selectedColumns = Array.from(
                     selectColumnsForm.querySelectorAll('input[name="selected_columns"]:checked')
                 );
     
                 if (selectedColumns.length === 0) {
-                    event.preventDefault();
                     columnsError.textContent = "Lütfen en az bir sütun seçin.";
                     columnsError.style.display = "block";
+                    event.preventDefault();
                 } else {
                     columnsError.style.display = "none";
                 }
             });
         }
+        if(classifierForm){
+            csvForm.style.display = "none";
+        }
     });
-    
-    
 </script>
 {% endblock %}
