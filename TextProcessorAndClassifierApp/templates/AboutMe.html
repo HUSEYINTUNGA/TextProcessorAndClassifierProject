@@ -239,59 +239,95 @@
 
 <section>
     <h2>Kullanım Kılavuzu</h2>
-
-    <h3>1. Metin İşleme</h3>
-    <p>Ana sayfa üzerinden aşağıdaki işlemleri gerçekleştirebilirsiniz:</p>
-    <ul>
-        <li><strong>Metni kutucuğa yazın veya yapıştırın:</strong> İstenilen metni manuel olarak yazabilir veya kopyala-yapıştır yöntemiyle kutucuğa yerleştirebilirsiniz.</li>
-        <li><strong>Aşağıdaki işlemlerden birini veya birkaçını seçin:</strong></li>
+    <section>
+        <h3>1. Metin İşleme</h3>
+        <p>Ana sayfa üzerinden aşağıdaki işlemleri gerçekleştirebilirsiniz:</p>
         <ul>
-            <li><strong>Noktalama İşaretlerini Kaldır:</strong> Metindeki tüm noktalama işaretlerini temizler. Bu işlem metnin daha temiz ve işlenebilir olmasını sağlar.</li>
-            <li><strong>Özel Karakterleri Kaldır:</strong> Metinden gereksiz özel karakterleri çıkarır. Örneğin, "$", "@", "#", vb. gibi semboller metnin anlamını bozan unsurlar olabilir ve bu işlemle temizlenir.</li>
-            <li><strong>Küçük/Büyük Harfe Dönüştür:</strong> Metni tamamen küçük harflere veya tamamen büyük harflere dönüştürür. Bu işlem, metin üzerinde bir tutarlılık sağlamaya yardımcı olur, özellikle karşılaştırmalar için faydalıdır.</li>
-            <li><strong>Durdurma Kelimelerini Kaldır:</strong> Gereksiz kelimeleri ("ve", "ama", "the", "a" gibi) kaldırır. Bu kelimeler genellikle dilin akışında önemli bir rol oynamaz, bu nedenle metni temizlerken çıkarılır. Dil türüne göre (Türkçe ya da İngilizce) uygun durdurma kelimeleri listesi kullanılır. Örneğin, Türkçede "ve", "ama", İngilizcede ise "the", "is" gibi kelimeler çıkarılır.</li>
-            <li><strong>Kökleme (Stemming):</strong> Kelimeleri köklerine indirir. Bu işlem, dil bağımsız olarak uygulanır, ancak Türkçe ve İngilizce metinlerde farklı sonuçlar verebilir. Örneğin, "yazmak" kelimesi "yaz" köküne indirgenebilir. Kökleme işlemi, dilin kurallarına göre değil, kelimenin en kısa formuna göre yapılır.</li>
-            <li><strong>Lemmatizasyon:</strong> Kelimeleri, dil bilgisine uygun kök forma dönüştürür. Bu işlem, dil türüne bağlı olarak farklılık gösterir. Türkçe ve İngilizce metinlerde farklı lemmatizasyon kuralları uygulanır. Örneğin, İngilizce "running" kelimesi "run" olarak lemmatize edilirken, Türkçe "gidiş" kelimesi "git" köküne dönüştürülebilir. Lemmatizasyon, dil bilgisi açısından anlamlı ve doğru kelimeler elde etmek için gereklidir.</li>
-            <li><strong>Sınıflandırma:</strong> Dil türüne göre, yalnızca İngilizce ve Türkçe metinler sınıflandırılabilir. Diğer dillerde sınıflandırma işlemi gerçekleşmez. Eğer metin İngilizce veya Türkçe ise, metnin anlamına göre bir sınıf tahmin edilir (örneğin, duygu analizi ya da konu sınıflandırması gibi). Diğer diller için sınıflandırma işlemi yapılmaz.</li>
+            <li><strong>Metni kutucuğa yazın veya yapıştırın:</strong> İstenilen metni manuel olarak yazabilir veya kopyala-yapıştır yöntemiyle kutucuğa yerleştirebilirsiniz.</li>
+            <li><strong>Aşağıdaki işlemlerden birini veya birkaçını seçin:</strong></li>
+            <ul>
+                <li><strong>Noktalama İşaretlerini Kaldır:</strong> Metindeki tüm noktalama işaretlerini temizler. Bu işlem metnin daha temiz ve işlenebilir olmasını sağlar.</li>
+                <li><strong>Özel Karakterleri Kaldır:</strong> Metinden gereksiz özel karakterleri çıkarır. Örneğin, "$", "@", "#", vb. gibi semboller metnin anlamını bozan unsurlar olabilir ve bu işlemle temizlenir.</li>
+                <li><strong>Küçük/Büyük Harfe Dönüştür:</strong> Metni tamamen küçük harflere veya tamamen büyük harflere dönüştürür. Bu işlem, metin üzerinde bir tutarlılık sağlamaya yardımcı olur, özellikle karşılaştırmalar için faydalıdır.</li>
+                <li><strong>Durdurma Kelimelerini Kaldır:</strong> Gereksiz kelimeleri ("ve", "ama", "the", "a" gibi) kaldırır. Bu kelimeler genellikle dilin akışında önemli bir rol oynamaz, bu nedenle metni temizlerken çıkarılır. Dil türüne göre (Türkçe ya da İngilizce) uygun durdurma kelimeleri listesi kullanılır. Örneğin, Türkçede "ve", "ama", İngilizcede ise "the", "is" gibi kelimeler çıkarılır.</li>
+                <li><strong>Kökleme (Stemming):</strong> Kelimeleri köklerine indirir. Bu işlem, dil bağımsız olarak uygulanır, ancak Türkçe ve İngilizce metinlerde farklı sonuçlar verebilir. Örneğin, "yazmak" kelimesi "yaz" köküne indirgenebilir. Kökleme işlemi, dilin kurallarına göre değil, kelimenin en kısa formuna göre yapılır.</li>
+                <li><strong>Lemmatizasyon:</strong> Kelimeleri, dil bilgisine uygun kök forma dönüştürür. Bu işlem, dil türüne bağlı olarak farklılık gösterir. Türkçe ve İngilizce metinlerde farklı lemmatizasyon kuralları uygulanır. Örneğin, İngilizce "running" kelimesi "run" olarak lemmatize edilirken, Türkçe "gidiş" kelimesi "git" köküne dönüştürülebilir. Lemmatizasyon, dil bilgisi açısından anlamlı ve doğru kelimeler elde etmek için gereklidir.</li>
+                <li><strong>Sınıflandırma:</strong> Dil türüne göre, yalnızca İngilizce ve Türkçe metinler sınıflandırılabilir. Diğer dillerde sınıflandırma işlemi gerçekleşmez. Eğer metin İngilizce veya Türkçe ise, metnin anlamına göre bir sınıf tahmin edilir (örneğin, duygu analizi ya da konu sınıflandırması gibi). Diğer diller için sınıflandırma işlemi yapılmaz.</li>
+            </ul>
+            <li><strong>Sonuçları bir kutucuk içinde görüntüleyebilir ve panoya kopyalayabilirsiniz:</strong> İşlem sonrasında elde edilen sonuçlar, kullanıcıya bir kutu içinde gösterilir. Sonuçlar daha sonra kullanıcı tarafından kolayca panoya kopyalanabilir.</li>
         </ul>
-        <li><strong>Sonuçları bir kutucuk içinde görüntüleyebilir ve panoya kopyalayabilirsiniz:</strong> İşlem sonrasında elde edilen sonuçlar, kullanıcıya bir kutu içinde gösterilir. Sonuçlar daha sonra kullanıcı tarafından kolayca panoya kopyalanabilir.</li>
-    </ul>
+    </section>    
+    
+    <section>
+        <h3>2. CSV Verilerini İşleme</h3>
+        <p>"CSV Verilerini İşle" sekmesi üzerinden aşağıdaki adımları takip edebilirsiniz:</p>
+        <ul>
+            <li><strong>CSV Dosyası Yükleme:</strong> İşlenecek verileri içeren CSV dosyasını yükleyin. Bu, verilerin sistemde analiz edilebilmesi için gerekli olan ilk adımdır.</li>
+            <li><strong>Sütun Seçimi:</strong> Dosyadaki verilerden hangilerinin işleneceğine karar verin. Bu işlem için sütun veya sütunları seçebilirsiniz. Örneğin, "Metin" sütununu seçerek sadece metin verilerini işlemek isteyebilirsiniz.</li>
+            <li><strong>Metin İşleme İşlemleri:</strong> Seçtiğiniz sütunlardaki verileri yukarıda açıklanan işlemlerden bir veya birden fazlasını seçerek işleyebilirsiniz.</li>
+            <li><strong>Sonuçları İndirme:</strong> İşlem sonrasında elde edilen verileri CSV formatında bilgisayarınıza indirebilirsiniz. Bu, işlemin tamamlanıp çıktının kaydedilmesini sağlar.</li>
+        </ul>
+    </section>
 
-    <h3>2. CSV Verilerini İşleme</h3>
-    <p>"CSV Verilerini İşle" sekmesi üzerinden aşağıdaki adımları takip edebilirsiniz:</p>
-    <ul>
-        <li><strong>CSV Dosyası Yükleme:</strong> İşlenecek verileri içeren CSV dosyasını yükleyin. Bu, verilerin sistemde analiz edilebilmesi için gerekli olan ilk adımdır.</li>
-        <li><strong>Sütun Seçimi:</strong> Dosyadaki verilerden hangilerinin işleneceğine karar verin. Bu işlem için sütun veya sütunları seçebilirsiniz. Örneğin, "Metin" sütununu seçerek sadece metin verilerini işlemek isteyebilirsiniz.</li>
-        <li><strong>Metin İşleme İşlemleri:</strong> Seçtiğiniz sütunlardaki verileri yukarıda açıklanan işlemlerden bir veya birden fazlasını seçerek işleyebilirsiniz.</li>
-        <li><strong>Sonuçları İndirme:</strong> İşlem sonrasında elde edilen verileri CSV formatında bilgisayarınıza indirebilirsiniz. Bu, işlemin tamamlanıp çıktının kaydedilmesini sağlar.</li>
-    </ul>
+    <section>
+        <h3>3. CSV Verilerini Sınıflandırma</h3>
+        <p>"CSV Verilerini Sınıflandır" sekmesi üzerinden aşağıdaki adımları takip ederek verilerinizi sınıflandırabilirsiniz:</p>
+        <ul>
+            <li><strong>Dosya Yükleme:</strong> Sınıflandırılacak verileri içeren CSV dosyasını yükleyin. Bu işlem, verilerin sistemde analiz edilebilmesi için gerekli olan ilk adımdır. Dosya yükleme işlemi başarılı olduğunda, içerik otomatik olarak sisteme aktarılır ve işlenmeye hazır hale gelir.</li>
+            <li><strong>Sütun Seçimi:</strong> Sınıflandırmak istediğiniz verileri içeren sütun'a veya sütunlar'a karar verin. Bu işlem için sütun veya sütunları seçebilirsiniz.</li>
+            <li><strong>Sınıflandırmayı Başlatma:</strong> Seçilen sütunlardaki verileri sınıflandırmaya başlamak için "Sınıflandırmayı Başlat" butonuna tıklayın. Seçtiğiniz sütunlardaki veriler, dil türüne göre backend tarafında değerlendirilir. Uygulama yalnızca Türkçe ve İngilizce dillerini destekler. Eğer metin Türkçe veya İngilizce değilse, sınıflandırma işlemi gerçekleşmez ve "Tahmin yapılamadı" veya "Dil desteklenmiyor" gibi bir sonuçla karşılaşırsınız. Bu sınıflandırma sonucu, döndürülen CSV dosyasında gözlemlenebilir.</li>
+            <li><strong>Sonuçları İndirme:</strong> Sınıflandırma işleminden sonra tahmin edilen sınıfları içeren CSV dosyasını indirebilirsiniz. İndirilen dosya, sınıflandırılmış metinlerinizi ve her metnin ait olduğu sınıf bilgilerini içerir.</li>
+        </ul>
+    </section>
 
-    <h3>3. CSV Verilerini Sınıflandırma</h3>
-    <p>"CSV Verilerini Sınıflandır" sekmesi üzerinden aşağıdaki adımları takip ederek verilerinizi sınıflandırabilirsiniz:</p>
-    <ul>
-        <li><strong>Dosya Yükleme:</strong> Sınıflandırılacak verileri içeren CSV dosyasını yükleyin. Bu işlem, verilerin sistemde analiz edilebilmesi için gerekli olan ilk adımdır. Dosya yükleme işlemi başarılı olduğunda, içerik otomatik olarak sisteme aktarılır ve işlenmeye hazır hale gelir.</li>
-        <li><strong>Sütun Seçimi:</strong> Sınıflandırmak istediğiniz verileri içeren sütun'a veya sütunlar'a karar verin. Bu işlem için sütun veya sütunları seçebilirsiniz.</li>
-        <li><strong>Sınıflandırmayı Başlatma:</strong> Seçilen sütunlardaki verileri sınıflandırmaya başlamak için "Sınıflandırmayı Başlat" butonuna tıklayın. Seçtiğiniz sütunlardaki veriler, dil türüne göre backend tarafında değerlendirilir. Uygulama yalnızca Türkçe ve İngilizce dillerini destekler. Eğer metin Türkçe veya İngilizce değilse, sınıflandırma işlemi gerçekleşmez ve "Tahmin yapılamadı" veya "Dil desteklenmiyor" gibi bir sonuçla karşılaşırsınız. Bu sınıflandırma sonucu, döndürülen CSV dosyasında gözlemlenebilir.</li>
-        <li><strong>Sonuçları İndirme:</strong> Sınıflandırma işleminden sonra tahmin edilen sınıfları içeren CSV dosyasını indirebilirsiniz. İndirilen dosya, sınıflandırılmış metinlerinizi ve her metnin ait olduğu sınıf bilgilerini içerir.</li>
-    </ul>
+    <section>
+        <h3>4. Kendi Modellerinizi Oluşturma</h3>
+        <p>"Kendi Sınıflandırma Modelini Oluştur" sekmesi üzerinden aşağıdaki senaryoları takip edebilirsiniz:</p>
+    
+        <section>
+            <h4>Uygulamanın Mevcut Datasetini Kullanmak İstiyorum</h4>
+            <p>Bu senaryoyu seçtiğinizde, uygulamanın mevcut datasetlerinden birini kullanarak modelinizi oluşturabilirsiniz:</p>
+            <ul>
+                <li><strong>Dataset Seçimi:</strong> Türkçe veya İngilizce datasetlerinden birini seçin.</li>
+                <li><strong>Model Bileşenlerini Seçme:</strong> Modelinizin bileşenlerini seçin. Varsayılan olarak belirlenmiş bileşenler, uygulamanın datasetleri ile denenmiş ve en iyi sonucu vermiş olan modelin bileşenleridir.</li>
+                <li><strong>Modeli Eğitme:</strong> Seçtiğiniz bileşenlerle model eğitilecek ve performans metrikleri gösterilecektir.</li>
+            </ul>
+            <p>Sonrasında şu seçenekler sunulacaktır:</p>
+            <ul>
+                <li><strong>Evet, Tahmin Yaptırmak İstiyorum:</strong> Tahmin yapmak için verilerinizi yükleyin ve sınıfları tahmin ettirin.</li>
+                <li><strong>Hayır, Modeli Tekrar Oluşturmak İstiyorum:</strong> Yeni model oluşturmak için yeniden model oluşturma adımlarını takip edin.</li>
+            </ul>
+        </section>
+    
 
-    <h3>4. Kendi Modellerinizi Oluşturma</h3>
-    <p>"Kendi Sınıflandrıma Modelini Oluştur" sekmesi üzerinden:</p>
-    <ul>
-        <li><strong>Varsayılan veya Özel Dataset Seçimi:</strong> Mevcut datasetlerden birini veya kendi datasetinizi seçin.</li>
-        <li><strong>Hedef Sütunu Belirleme:</strong> Sınıflandırmada kullanılacak sütunu seçin.</li>
-        <li><strong>Veri Dağılımını Dengeleme:</strong> Sınıf dengesizliğini giderin veya veri setini olduğu gibi kullanın.</li>
-        <li><strong>Model Bileşenlerini Seçme:</strong> Algoritma ve vektörleştirici seçimini yapın.</li>
-        <li><strong>Model Eğitimini Başlatma:</strong> Seçilen bileşenlerle modelinizi eğitin.</li>
-        <li><strong>Model Performansını Görüntüleme:</strong> Doğruluk oranı, precision, recall ve F1 skorlarını inceleyin.</li>
-    </ul>
-
-    <h3>5. Eğitimli Modellerle Tahmin Yapma</h3>
-    <ul>
-        <li><strong>CSV Dosyası Yükleme:</strong> Tahmin yapmak istediğiniz dosyayı yükleyin.</li>
-        <li><strong>Sütun Seçimi:</strong> Tahmin yapılacak sütunları belirleyin.</li>
-        <li><strong>Tahmini Görme ve İndirme:</strong> Sonuçları CSV formatında kaydedin.</li>
-    </ul>
+        <section>
+            <h4>Kendi Datasetimi Kullanmak İstiyorum</h4>
+            <p>Bu senaryoyu seçtiğinizde, kendi verisetinizi yükleyerek modelinizi oluşturabilirsiniz:</p>
+            <ul>
+                <li><strong>Eğitim Veriseti Yükleme:</strong> Kendi datasetinizi CSV dosyası olarak yükleyin.</li>
+                <li><strong>Etiket Sütunu Seçme:</strong> Dataset'inizdeki etiket sütununu seçin.</li>
+                <li><strong>Veri Dağılımını Dengeleme:</strong> Dağılım dengesizliklerini giderebilir veya verinizi olduğu gibi kullanabilirsiniz.</li>
+                <ul>
+                    <li><strong>En Az Veri İçeren Sınıfları Kaldır:</strong>
+                        <p>Veri setinizdeki etiket türlerinin içerdiği veri sayılarının ortalaması hesaplanacak. Ortalamanın altında veri sayısına sahip etiket türleri veri setinden çıkarılacaktır.</p>
+                    </li>
+                    <li><strong>Dağılımı Dengele:</strong>
+                        <p>Tüm etiket türlerinin veri sayısı, en az veri sayısına sahip etiket türünün veri sayısına indirgenecektir. Bu işlem, veri setinizin dağılımını dengelemeye yardımcı olacaktır.</p>
+                    </li>
+                    <li><strong>Olduğu Gibi Kullan:</strong>
+                        <p>Veri setinizdeki mevcut veri dağılımı olduğu gibi kullanılacaktır. Veri setinizdeki dengesizlikler veya farklılıklar korunacaktır.</p>
+                    </li>
+                </ul>
+                <li><strong>Model Bileşenlerini Seçme:</strong> Modelinizin bileşenlerini seçin. Varsayılan olarak belirlenmiş bileşenler, uygulamanın datasetleri ile denenmiş ve en iyi sonucu vermiş olan modelin bileşenleridir.</li>
+                <li><strong>Modeli Eğitme:</strong> Seçtiğiniz bileşenlerle model eğitilecek ve performans metrikleri gösterilecektir.</li>
+            </ul>
+            <p>Sonrasında şu seçenekler sunulacaktır:</p>
+            <ul>
+                <li><strong>Evet, Tahmin Yaptırmak İstiyorum:</strong> Tahmin yapmak için verilerinizi yükleyin ve sınıfları tahmin ettirin.</li>
+                <li><strong>Hayır, Modeli Tekrar Oluşturmak İstiyorum:</strong> Yeni model oluşturmak için yeniden model oluşturma adımlarını takip edin.</li>
+            </ul>
+        </section>
+    </section>    
 </section>
 
 <section>
