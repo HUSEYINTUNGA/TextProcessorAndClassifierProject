@@ -1,55 +1,24 @@
+# Text Processor and Classifier
 
-Teşekkürler! Şimdi, GitHub reposu için bir README dosyası oluşturmanıza yardımcı olacak temel bir şablon hazırlayabilirim. İşte size bir öneri:
+**Text Processor and Classifier** projesi, metin işleme ve sınıflandırma işlemlerini kolaylaştırmak ve kullanıcıların metinlerini verimli bir şekilde analiz etmelerine olanak tanımak için tasarlanmıştır. Proje, metin temizleme, özellik çıkarma ve sınıflandırma işlemleriyle kullanıcıların iş yükünü azaltmayı hedefler.
 
-Text Processor and Classifier Project
-Text Processor and Classifier, kullanıcıların metinleri verimli bir şekilde işleyebileceği ve sınıflandırabileceği bir Python projesidir. Proje, metin temizleme, özellik çıkarma, CSV dosyası işleme ve metin sınıflandırma işlemleri gibi çeşitli işlevler sunmaktadır. İngilizce ve Türkçe metinler üzerinde çalışabilir ve kullanıcıların kendi sınıflandırma modellerini oluşturmasına olanak tanır.
+## Özellikler
+- Metin temizleme ve özellik çıkarma işlemleri.
+- CSV dosyalarının sınıflandırılması ve işlenmesi.
+- Kendi sınıflandırma modellerinizi oluşturma ve eğitme.
+- İngilizce ve Türkçe metinlerde sınıflandırma.
 
-Proje Hedefi
-Bu proje, metin işleme ve sınıflandırma işlemlerini basitleştirerek, kullanıcıların verileri hızlı ve verimli bir şekilde analiz etmelerine olanak tanır.
+## Kullanım
 
-Özellikler:
-Metin İşleme: Noktalama işaretlerini kaldırma, özel karakterleri temizleme, küçük/büyük harfe dönüştürme, durdurma kelimelerini çıkarma, kökleme (stemming), ve lemmatizasyon.
-CSV İşleme: CSV dosyalarını işleyebilir, sütun seçimi yapabilir ve işlenmiş veriyi indirebilirsiniz.
-Sınıflandırma: Eğitilmiş modeller ile metinleri sınıflandırabilir ve metinlerin diline göre en uygun sınıflandırma modelini seçebilirsiniz.
-Kendi Modellerinizi Oluşturma: TF-IDF, Count Vectorizer gibi tekniklerle kendi sınıflandırma modellerinizi oluşturabilirsiniz.
-Model Performans Raporu: Modelin doğruluğunu, precision, recall ve F1-Score gibi metriklerle raporlama.
-Kullanıcı Dostu Arayüz: Basit ve anlaşılır bir tasarım, tüm cihazlarda uyumlu çalışma.
-Kurulum
-Proje, Python ve Django framework'ü ile geliştirilmiştir. Aşağıdaki adımları izleyerek projeyi yerel ortamınızda çalıştırabilirsiniz:
+Projeyi kullanarak metin işleme ve sınıflandırma işlemlerini kolayca gerçekleştirebilirsiniz. Detaylı kullanım ve rehber için [Hakkımda ve Proje Tanıtımı](https://github.com/HUSEYINTUNGA/TextProcessorAndClassifierProject/blob/main/TextProcessorAndClassifierApp/templates/AboutMe.html) sayfasını ziyaret edebilirsiniz.
 
-Depoyu klonlayın:
+## Teknolojiler
 
-bash
-Kodu kopyala
-git clone https://github.com/HUSEYINTUNGA/TextProcessorAndClassifierProject.git
-Gerekli Python paketlerini yükleyin:
+- **Backend:** Python, Django
+- **Frontend:** HTML, CSS, Bootstrap
+- **Makine Öğrenimi:** Sınıflandırıcılar ve veri işleme araçları
+- **API:** Google Translate API
 
-bash
-Kodu kopyala
-cd TextProcessorAndClassifierProject
-pip install -r requirements.txt
-Veritabanı ve migrasyon işlemlerini yapın:
+## Daha Fazla Bilgi
 
-bash
-Kodu kopyala
-python manage.py migrate
-Geliştirme sunucusunu başlatın:
-
-bash
-Kodu kopyala
-python manage.py runserver
-Web tarayıcınızda projeyi açın: http://127.0.0.1:8000/
-
-Kullanılan Teknolojiler
-Backend: Python, Django
-Frontend: HTML, CSS, Bootstrap
-Makine Öğrenimi: Scikit-learn, NumPy, Pandas
-API: Google Translate API (Dil tespiti ve çeviri)
-Veri Görselleştirme: Matplotlib, Seaborn
-Katkıda Bulunma
-Bu projeye katkıda bulunmak isterseniz, lütfen aşağıdaki adımları izleyin:
-
-Fork yapın.
-Yeni bir branch oluşturun: git checkout -b feature-branch
-Değişikliklerinizi yapın ve commit edin.
-Pull request açın.
+Projeyle ilgili daha fazla bilgiye ve detaylı açıklamalara [Hakkımda ve Proje Tanıtımı](https://github.com/HUSEYINTUNGA/TextProcessorAndClassifierProject/blob/main/TextProcessorAndClassifierApp/templates/AboutMe.html) sayfasından ulaşabilirsiniz.
