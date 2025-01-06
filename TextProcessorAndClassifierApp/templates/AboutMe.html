@@ -220,14 +220,15 @@
 
 <section>
     <h2>Model Performans Raporu</h2>
-    <h3>İngilizce Metin Verileri</h3>
+    <p>Projede, geliştirici tarafından oluşturulmuş iki adet metin sınıflandırma modeli bulunmaktadır.</p>
+    <h3>İngilizce metin verileri ile eğitilmiş model metrikleri</h3>
     <ul>
         <li><strong>Doğruluk:</strong> %83</li>
         <li><strong>Makro Ortalama Precision:</strong> %84</li>
         <li><strong>Makro Ortalama Recall:</strong> %82</li>
         <li><strong>Makro Ortalama F1-Score: </strong>%83</li>
     </ul>
-    <h3>Türkçe Metin Verileri</h3>
+    <h3>Türkçe metin verileri ile eğitilmiş model metrikleri</h3>
     <ul>
         <li><strong>Doğruluk:</strong> %95</li>
         <li><strong>Makro Ortalama Precision:</strong> %95</li>
@@ -242,37 +243,36 @@
     <h3>1. Metin İşleme</h3>
     <p>Ana sayfa üzerinden aşağıdaki işlemleri gerçekleştirebilirsiniz:</p>
     <ul>
-        <li>Metni kutucuğa yazın veya yapıştırın.</li>
-        <li>Aşağıdaki işlemlerden birini veya birkaçını seçin:</li>
+        <li><strong>Metni kutucuğa yazın veya yapıştırın:</strong> İstenilen metni manuel olarak yazabilir veya kopyala-yapıştır yöntemiyle kutucuğa yerleştirebilirsiniz.</li>
+        <li><strong>Aşağıdaki işlemlerden birini veya birkaçını seçin:</strong></li>
         <ul>
-            <li><strong>Noktalama İşaretlerini Kaldır:</strong> Metindeki tüm noktalama işaretlerini temizler.</li>
-            <li><strong>Özel Karakterleri Kaldır:</strong> Metinden özel karakterleri çıkarır.</li>
-            <li><strong>Küçük/Büyük Harfe Dönüştür:</strong> Metni tamamen küçük veya büyük harflere dönüştürür.</li>
-            <li><strong>Durdurma Kelimelerini Kaldır:</strong> Gereksiz kelimeleri ("ve", "ama") kaldırır.</li>
-            <li><strong>Kökleme (Stemming):</strong> Kelimeleri köklerine indirir.</li>
-            <li><strong>Lemmatizasyon:</strong> Dil bilgisine uygun kök forma dönüştürür.</li>
-            <li><strong>Sınıflandırma:</strong>  Dil türüne göre, İngilizce veya Türkçe ise uygulamanın modellerinde sınıf tahmini yapılır; aksi durumda sınıflandırma işlemi gerçekleşmez.</li>
-
+            <li><strong>Noktalama İşaretlerini Kaldır:</strong> Metindeki tüm noktalama işaretlerini temizler. Bu işlem metnin daha temiz ve işlenebilir olmasını sağlar.</li>
+            <li><strong>Özel Karakterleri Kaldır:</strong> Metinden gereksiz özel karakterleri çıkarır. Örneğin, "$", "@", "#", vb. gibi semboller metnin anlamını bozan unsurlar olabilir ve bu işlemle temizlenir.</li>
+            <li><strong>Küçük/Büyük Harfe Dönüştür:</strong> Metni tamamen küçük harflere veya tamamen büyük harflere dönüştürür. Bu işlem, metin üzerinde bir tutarlılık sağlamaya yardımcı olur, özellikle karşılaştırmalar için faydalıdır.</li>
+            <li><strong>Durdurma Kelimelerini Kaldır:</strong> Gereksiz kelimeleri ("ve", "ama", "the", "a" gibi) kaldırır. Bu kelimeler genellikle dilin akışında önemli bir rol oynamaz, bu nedenle metni temizlerken çıkarılır. Dil türüne göre (Türkçe ya da İngilizce) uygun durdurma kelimeleri listesi kullanılır. Örneğin, Türkçede "ve", "ama", İngilizcede ise "the", "is" gibi kelimeler çıkarılır.</li>
+            <li><strong>Kökleme (Stemming):</strong> Kelimeleri köklerine indirir. Bu işlem, dil bağımsız olarak uygulanır, ancak Türkçe ve İngilizce metinlerde farklı sonuçlar verebilir. Örneğin, "yazmak" kelimesi "yaz" köküne indirgenebilir. Kökleme işlemi, dilin kurallarına göre değil, kelimenin en kısa formuna göre yapılır.</li>
+            <li><strong>Lemmatizasyon:</strong> Kelimeleri, dil bilgisine uygun kök forma dönüştürür. Bu işlem, dil türüne bağlı olarak farklılık gösterir. Türkçe ve İngilizce metinlerde farklı lemmatizasyon kuralları uygulanır. Örneğin, İngilizce "running" kelimesi "run" olarak lemmatize edilirken, Türkçe "gidiş" kelimesi "git" köküne dönüştürülebilir. Lemmatizasyon, dil bilgisi açısından anlamlı ve doğru kelimeler elde etmek için gereklidir.</li>
+            <li><strong>Sınıflandırma:</strong> Dil türüne göre, yalnızca İngilizce ve Türkçe metinler sınıflandırılabilir. Diğer dillerde sınıflandırma işlemi gerçekleşmez. Eğer metin İngilizce veya Türkçe ise, metnin anlamına göre bir sınıf tahmin edilir (örneğin, duygu analizi ya da konu sınıflandırması gibi). Diğer diller için sınıflandırma işlemi yapılmaz.</li>
         </ul>
-        <li>Sonuçları bir kutucuk içinde görüntüleyebilir ve panoya kopyalayabilirsiniz.</li>
+        <li><strong>Sonuçları bir kutucuk içinde görüntüleyebilir ve panoya kopyalayabilirsiniz:</strong> İşlem sonrasında elde edilen sonuçlar, kullanıcıya bir kutu içinde gösterilir. Sonuçlar daha sonra kullanıcı tarafından kolayca panoya kopyalanabilir.</li>
     </ul>
 
     <h3>2. CSV Verilerini İşleme</h3>
-    <p>"CSV Verilerini İşle" sekmesi üzerinden:</p>
+    <p>"CSV Verilerini İşle" sekmesi üzerinden aşağıdaki adımları takip edebilirsiniz:</p>
     <ul>
-        <li><strong>CSV Dosyası Yükleme:</strong> İşlenecek dosyanızı yükleyin.</li>
-        <li><strong>Sütun Seçimi:</strong> İşlem yapılacak sütunları seçin.</li>
-        <li><strong>Metin İşleme İşlemleri:</strong> Yukarıda belirtilen işlemleri sütunlara uygulayın.</li>
-        <li><strong>İşlenmiş Dosyayı İndirme:</strong> Dosyayı bilgisayarınıza kaydedin.</li>
+        <li><strong>CSV Dosyası Yükleme:</strong> İşlenecek verileri içeren CSV dosyasını yükleyin. Bu, verilerin sistemde analiz edilebilmesi için gerekli olan ilk adımdır.</li>
+        <li><strong>Sütun Seçimi:</strong> Dosyadaki verilerden hangilerinin işleneceğine karar verin. Bu işlem için sütun veya sütunları seçebilirsiniz. Örneğin, "Metin" sütununu seçerek sadece metin verilerini işlemek isteyebilirsiniz.</li>
+        <li><strong>Metin İşleme İşlemleri:</strong> Seçtiğiniz sütunlardaki verileri yukarıda açıklanan işlemlerden bir veya birden fazlasını seçerek işleyebilirsiniz.</li>
+        <li><strong>Sonuçları İndirme:</strong> İşlem sonrasında elde edilen verileri CSV formatında bilgisayarınıza indirebilirsiniz. Bu, işlemin tamamlanıp çıktının kaydedilmesini sağlar.</li>
     </ul>
 
     <h3>3. CSV Verilerini Sınıflandırma</h3>
-    <p>"CSV Verilerini Sınıflandır" sekmesi üzerinden:</p>
+    <p>"CSV Verilerini Sınıflandır" sekmesi üzerinden aşağıdaki adımları takip ederek verilerinizi sınıflandırabilirsiniz:</p>
     <ul>
-        <li><strong>Dosya Yükleme:</strong> Sınıflandırılacak dosyayı yükleyin.</li>
-        <li><strong>Sütun Seçimi:</strong> Sınıflandırılacak sütunları belirleyin.</li>
-        <li><strong>Sınıflandırmayı Başlatma:</strong> Seçilen sütunlardaki verileri sınıflandırın.</li>
-        <li><strong>Sonuçları Görme ve İndirme:</strong> Tahmin edilen sınıfları CSV dosyasına kaydedin.</li>
+        <li><strong>Dosya Yükleme:</strong> Sınıflandırılacak verileri içeren CSV dosyasını yükleyin. Bu işlem, verilerin sistemde analiz edilebilmesi için gerekli olan ilk adımdır. Dosya yükleme işlemi başarılı olduğunda, içerik otomatik olarak sisteme aktarılır ve işlenmeye hazır hale gelir.</li>
+        <li><strong>Sütun Seçimi:</strong> Sınıflandırmak istediğiniz verileri içeren sütun'a veya sütunlar'a karar verin. Bu işlem için sütun veya sütunları seçebilirsiniz.</li>
+        <li><strong>Sınıflandırmayı Başlatma:</strong> Seçilen sütunlardaki verileri sınıflandırmaya başlamak için "Sınıflandırmayı Başlat" butonuna tıklayın. Seçtiğiniz sütunlardaki veriler, dil türüne göre backend tarafında değerlendirilir. Uygulama yalnızca Türkçe ve İngilizce dillerini destekler. Eğer metin Türkçe veya İngilizce değilse, sınıflandırma işlemi gerçekleşmez ve "Tahmin yapılamadı" veya "Dil desteklenmiyor" gibi bir sonuçla karşılaşırsınız. Bu sınıflandırma sonucu, döndürülen CSV dosyasında gözlemlenebilir.</li>
+        <li><strong>Sonuçları İndirme:</strong> Sınıflandırma işleminden sonra tahmin edilen sınıfları içeren CSV dosyasını indirebilirsiniz. İndirilen dosya, sınıflandırılmış metinlerinizi ve her metnin ait olduğu sınıf bilgilerini içerir.</li>
     </ul>
 
     <h3>4. Kendi Modellerinizi Oluşturma</h3>
