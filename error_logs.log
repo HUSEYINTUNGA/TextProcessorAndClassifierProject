@@ -1,3 +1,9 @@
 2025-01-06 13:36:55,791 - WARNING - Not Found: /favicon.ico
 2025-01-06 15:22:58,212 - WARNING - Not Found: /favicon.ico
 2025-01-06 17:13:10,920 - WARNING - Not Found: /favicon.ico
+2025-01-06 20:16:08,191 - WARNING - Not Found: /favicon.ico
+2025-01-08 15:23:32,981 - WARNING - Not Found: /favicon.ico
+2025-01-08 15:25:59,610 - ERROR - Dil tespiti sýrasýnda hata: the JSON object must be str, bytes or bytearray, not NoneType
+2025-01-08 15:28:43,007 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\base_options.py changed, reloading.
+2025-01-08 15:29:02,916 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\base_options.py changed, reloading.
+2025-01-08 15:29:08,550 - INFO - C:\Users\husey\Desktop\Projects\TextProcessorAndClassifierProject\TextProcessorAndClassifierApp\base_options.py changed, reloading.

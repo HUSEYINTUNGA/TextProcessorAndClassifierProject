@@ -146,8 +146,10 @@ def predict_class(text, model_path,vectorizer_path, language='en'):
     else:
         model_path = model_path
         vectorizer_path = vectorizer_path
-        class_map = {v: k for k, v in convertEnglish.items()}
-
+        if language=='tr':
+            class_map = {v: k for k, v in convertTurkish.items()}
+        else:
+            class_map = {v: k for k, v in convertEnglish.items()}
     try:
         if os.path.exists(model_path) and os.path.exists(vectorizer_path):
             model = load(model_path)
